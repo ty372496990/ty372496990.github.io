@@ -152,6 +152,106 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-线程池" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/03/15/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">线程池</a>
+    </h1>
+  
+
+        
+        <a href="/2020/03/15/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" class="archive-article-date">
+  	<time datetime="2020-03-15T01:31:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="线程池相关内容"><a href="#线程池相关内容" class="headerlink" title="线程池相关内容"></a>线程池相关内容</h3><h4 id="池化技术"><a href="#池化技术" class="headerlink" title="池化技术"></a>池化技术</h4><p>程序的运行，本质就是占用系统的资源。因此要优化资源的使用。</p>
+<ol>
+<li><p>线程池</p>
+</li>
+<li><p>连接池</p>
+</li>
+</ol>
+<p>池化技术：事先准备好一些资源，有人用，就到池里拿，用完就放回去。</p>
+<h4 id="线程池的好处"><a href="#线程池的好处" class="headerlink" title="线程池的好处"></a>线程池的好处</h4><ol>
+<li>降低资源的消耗</li>
+<li>提高响应速度</li>
+<li>方便管理</li>
+</ol>
+<p>线程复用，可以控制最大并发数，管理线程。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.concurrent.ExecutorService;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.Executors;</span><br><span class="line"><span class="comment">//使用线程池来创建线程</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">executer</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ExecutorService executorService = Executors.newSingleThreadExecutor();<span class="comment">//单个线程</span></span><br><span class="line"><span class="comment">//        ExecutorService executorService = Executors.newFixedThreadPool(5);//固定线程池大小</span></span><br><span class="line"><span class="comment">//        ExecutorService executorService = Executors.newCachedThreadPool();//可变</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">                executorService.execute(() -&gt; &#123;</span><br><span class="line">                    System.out.println(Thread.currentThread().getName() + <span class="string">"在运行！。。"</span>);</span><br><span class="line">                &#125;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            executorService.shutdown();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//线程池用完要关闭</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ThreadPoolExecutor</span><span class="params">(<span class="keyword">int</span> corePoolSize,</span></span></span><br><span class="line"><span class="function"><span class="params">                              <span class="keyword">int</span> maximumPoolSize,</span></span></span><br><span class="line"><span class="function"><span class="params">                              <span class="keyword">long</span> keepAliveTime,</span></span></span><br><span class="line"><span class="function"><span class="params">                              TimeUnit unit,</span></span></span><br><span class="line"><span class="function"><span class="params">                              BlockingQueue&lt;Runnable&gt; workQueue,</span></span></span><br><span class="line"><span class="function"><span class="params">                              ThreadFactory threadFactory,</span></span></span><br><span class="line"><span class="function"><span class="params">                              RejectedExecutionHandler handler)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (corePoolSize &lt; <span class="number">0</span> ||</span><br><span class="line">            maximumPoolSize &lt;= <span class="number">0</span> ||</span><br><span class="line">            maximumPoolSize &lt; corePoolSize ||</span><br><span class="line">            keepAliveTime &lt; <span class="number">0</span>)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException();</span><br><span class="line">        <span class="keyword">if</span> (workQueue == <span class="keyword">null</span> || threadFactory == <span class="keyword">null</span> || handler == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</span><br><span class="line">        <span class="keyword">this</span>.acc = System.getSecurityManager() == <span class="keyword">null</span> ?</span><br><span class="line">                <span class="keyword">null</span> :</span><br><span class="line">                AccessController.getContext();</span><br><span class="line">        <span class="keyword">this</span>.corePoolSize = corePoolSize;</span><br><span class="line">        <span class="keyword">this</span>.maximumPoolSize = maximumPoolSize;</span><br><span class="line">        <span class="keyword">this</span>.workQueue = workQueue;</span><br><span class="line">        <span class="keyword">this</span>.keepAliveTime = unit.toNanos(keepAliveTime);</span><br><span class="line">        <span class="keyword">this</span>.threadFactory = threadFactory;</span><br><span class="line">        <span class="keyword">this</span>.handler = handler;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果阻塞队列未满，根据corePoolSize大小的线程池运行</p>
+<p>如果阻塞队列已满，则触发maximumPoolSize大小的线程池运行。</p>
+<h4 id="四大拒绝策略"><a href="#四大拒绝策略" class="headerlink" title="四大拒绝策略"></a>四大拒绝策略</h4><ol>
+<li><pre><code class="java">AbortPolicy <span class="comment">//队列满后再有线程进入抛出异常</span>
+&lt;!--￼<span class="number">2</span>--&gt;</code></pre>
+</li>
+<li><p>```java<br>DiscardPolicy//不管，也不抛出异常</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">4. &#96;&#96;&#96;java</span><br><span class="line">   DiscardOldestPolicy &#x2F;&#x2F;淘汰掉队首线程</span><br></pre></td></tr></table></figure></li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">线程池</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/03/15/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Java基础知识" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -910,109 +1010,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2020/01/27/%E5%90%8E%E5%8F%B0%E6%8E%A5%E5%8F%A3%E5%BC%80%E5%8F%91-%E8%AE%B2%E5%B8%88%E6%A8%A1%E5%9D%97/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-关于Mybatis-Plus" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/01/24/%E5%85%B3%E4%BA%8EMybatis-Plus/">关于Mybatis-Plus</a>
-    </h1>
-  
-
-        
-        <a href="/2020/01/24/%E5%85%B3%E4%BA%8EMybatis-Plus/" class="archive-article-date">
-  	<time datetime="2020-01-24T02:11:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-24</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="MP官网介绍"><a href="#MP官网介绍" class="headerlink" title="MP官网介绍"></a>MP官网介绍</h3><p><img src="https://i.loli.net/2020/01/24/cdrQp1WoyIXzh4S.png" alt="1 2020-01-24 101258.png"></p>
-<p><img src="https://i.loli.net/2020/01/24/nGBgThDqNOb7vW8.png" alt="2 2020-01-24 101258.png"></p>
-<h3 id="所需依赖"><a href="#所需依赖" class="headerlink" title="所需依赖"></a>所需依赖</h3><h4 id="springboot："><a href="#springboot：" class="headerlink" title="springboot："></a>springboot：</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.baomidou<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mybatis-plus-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.3.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="application-properties："><a href="#application-properties：" class="headerlink" title="application.properties："></a>application.properties：</h4><figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">spring.datasource.driver-class-name</span> =<span class="string">com.mysql.cj.jdbc.Driver</span></span><br><span class="line"><span class="meta">spring.datasource.url</span>=<span class="string">jdbc:mysql://localhost:3306/study?serverTimezone=UTC&amp;useUnicode=true&amp;characterEncoding=utf-8</span></span><br><span class="line"><span class="meta">spring.datasource.username</span>=<span class="string">root</span></span><br><span class="line"><span class="meta">spring.datasource.password</span>=<span class="string">ty980619</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="Mapper接口的编写："><a href="#Mapper接口的编写：" class="headerlink" title="Mapper接口的编写："></a>Mapper接口的编写：</h4><p>通过继承BaseMapper来实现Mapper的编写</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public interface StudentMapper extends BaseMapper&lt;Student&gt; &#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>查看BaseMapper的源码可以看到可使用的方法：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">BaseMapper</span>&lt;<span class="title">T</span>&gt; <span class="keyword">extends</span> <span class="title">Mapper</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">insert</span><span class="params">(T entity)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">deleteById</span><span class="params">(Serializable id)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">deleteByMap</span><span class="params">(@Param(<span class="string">"cm"</span>)</span> Map&lt;String, Object&gt; columnMap)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">delete</span><span class="params">(@Param(<span class="string">"ew"</span>)</span> Wrapper&lt;T&gt; wrapper)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">deleteBatchIds</span><span class="params">(@Param(<span class="string">"coll"</span>)</span> Collection&lt;? extends Serializable&gt; idList)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">updateById</span><span class="params">(@Param(<span class="string">"et"</span>)</span> T entity)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">update</span><span class="params">(@Param(<span class="string">"et"</span>)</span> T entity, @<span class="title">Param</span><span class="params">(<span class="string">"ew"</span>)</span> Wrapper&lt;T&gt; updateWrapper)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function">T <span class="title">selectById</span><span class="params">(Serializable id)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function">List&lt;T&gt; <span class="title">selectBatchIds</span><span class="params">(@Param(<span class="string">"coll"</span>)</span> Collection&lt;? extends Serializable&gt; idList)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function">List&lt;T&gt; <span class="title">selectByMap</span><span class="params">(@Param(<span class="string">"cm"</span>)</span> Map&lt;String, Object&gt; columnMap)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function">T <span class="title">selectOne</span><span class="params">(@Param(<span class="string">"ew"</span>)</span> Wrapper&lt;T&gt; queryWrapper)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function">Integer <span class="title">selectCount</span><span class="params">(@Param(<span class="string">"ew"</span>)</span> Wrapper&lt;T&gt; queryWrapper)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function">List&lt;T&gt; <span class="title">selectList</span><span class="params">(@Param(<span class="string">"ew"</span>)</span> Wrapper&lt;T&gt; queryWrapper)</span>;</span><br><span class="line"></span><br><span class="line">    List&lt;Map&lt;String, Object&gt;&gt; selectMaps(<span class="meta">@Param</span>(<span class="string">"ew"</span>) Wrapper&lt;T&gt; queryWrapper);</span><br><span class="line"></span><br><span class="line">    <span class="function">List&lt;Object&gt; <span class="title">selectObjs</span><span class="params">(@Param(<span class="string">"ew"</span>)</span> Wrapper&lt;T&gt; queryWrapper)</span>;</span><br><span class="line"></span><br><span class="line">    &lt;E extends IPage&lt;T&gt;&gt; <span class="function">E <span class="title">selectPage</span><span class="params">(E page, @Param(<span class="string">"ew"</span>)</span> Wrapper&lt;T&gt; queryWrapper)</span>;</span><br><span class="line"></span><br><span class="line">    &lt;E extends IPage&lt;Map&lt;String, Object&gt;&gt;&gt; <span class="function">E <span class="title">selectMapsPage</span><span class="params">(E page, @Param(<span class="string">"ew"</span>)</span> Wrapper&lt;T&gt; queryWrapper)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>配置日志：</p>
-<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#mysql日志</span></span><br><span class="line"><span class="meta">mybatis-plus.configuration.log-impl</span>=<span class="string">org.apache.ibatis.logging.stdout.StdOutImpl</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="关于自动配置"><a href="#关于自动配置" class="headerlink" title="关于自动配置"></a>关于自动配置</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@TableField</span>(fill = FieldFill.INSERT)</span><br><span class="line"><span class="keyword">private</span> Date createTime;</span><br><span class="line"><span class="meta">@TableField</span>(fill = FieldFill.INSERT_UPDATE)</span><br><span class="line"><span class="keyword">private</span> Date updateTime;</span><br></pre></td></tr></table></figure>
-
-<p>继承MetaObjectHandler接口：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyMetaObjectHandler</span> <span class="keyword">implements</span> <span class="title">MetaObjectHandler</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">insertFill</span><span class="params">(MetaObject metaObject)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">updateFill</span><span class="params">(MetaObject metaObject)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.ty.mpdemo.handler;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;</span><br><span class="line"><span class="keyword">import</span> org.apache.ibatis.reflection.MetaObject;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.Date;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyMetaObjectHandler</span> <span class="keyword">implements</span> <span class="title">MetaObjectHandler</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">insertFill</span><span class="params">(MetaObject metaObject)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.setFieldValByName(<span class="string">"createTime"</span>,<span class="keyword">new</span> Date(),metaObject);</span><br><span class="line">        <span class="keyword">this</span>.setFieldValByName(<span class="string">"updateTime"</span>,<span class="keyword">new</span> Date(),metaObject);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">updateFill</span><span class="params">(MetaObject metaObject)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.setFieldValByName(<span class="string">"updateTime"</span>,<span class="keyword">new</span> Date(),metaObject);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="逻辑删除配置："><a href="#逻辑删除配置：" class="headerlink" title="逻辑删除配置："></a>逻辑删除配置：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@TableLogic</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">mp前期准备</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/01/24/%E5%85%B3%E4%BA%8EMybatis-Plus/">展开全文 >></a>
         </p>
       
 

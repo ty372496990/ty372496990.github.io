@@ -152,6 +152,186 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-生产者-消费者模式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/04/23/%E7%94%9F%E4%BA%A7%E8%80%85-%E6%B6%88%E8%B4%B9%E8%80%85%E6%A8%A1%E5%BC%8F/">生产者-消费者模式</a>
+    </h1>
+  
+
+        
+        <a href="/2020/04/23/%E7%94%9F%E4%BA%A7%E8%80%85-%E6%B6%88%E8%B4%B9%E8%80%85%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
+  	<time datetime="2020-04-23T12:53:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-23</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="生产者-消费者"><a href="#生产者-消费者" class="headerlink" title="生产者-消费者"></a>生产者-消费者</h3><h4 id="Condition实现："><a href="#Condition实现：" class="headerlink" title="Condition实现："></a>Condition实现：</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> day13;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.LinkedList;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.TimeUnit;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.locks.Condition;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.locks.Lock;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.locks.ReentrantLock;</span><br><span class="line"><span class="keyword">import</span> java.util.stream.IntStream;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConditionTest</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Lock LOCK = <span class="keyword">new</span> ReentrantLock();</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Condition PRODUCE_COND = LOCK.newCondition();</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Condition CONSUME_COND = LOCK.newCondition();</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MAX_CAPACITY = <span class="number">100</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> LinkedList&lt;Long&gt; TIMESTAMP_POOL = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        IntStream.range(<span class="number">0</span>,<span class="number">6</span>).boxed().forEach(ConditionTest::BeginProduce);</span><br><span class="line">        IntStream.range(<span class="number">0</span>,<span class="number">6</span>).boxed().forEach(ConditionTest::BeginConsume);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">BeginProduce</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">                    produce();</span><br><span class="line">                    sleep((<span class="keyword">long</span>) <span class="number">3</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,<span class="string">"P"</span> + i).start();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">BeginConsume</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">                    consumer();</span><br><span class="line">                    sleep((<span class="keyword">long</span>) <span class="number">3</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,<span class="string">"C"</span> + i).start();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">produce</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            LOCK.lock();</span><br><span class="line">            <span class="keyword">while</span> (TIMESTAMP_POOL.size() &gt;= MAX_CAPACITY) &#123;</span><br><span class="line">                PRODUCE_COND.await();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">long</span> timeMillis = System.currentTimeMillis();</span><br><span class="line">            System.out.println(Thread.currentThread().getName() + <span class="string">"--P--"</span> + timeMillis);</span><br><span class="line">            TimeUnit.MILLISECONDS.sleep(<span class="number">0x64</span>);</span><br><span class="line">            TIMESTAMP_POOL.addLast(timeMillis);</span><br><span class="line">            CONSUME_COND.signal();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            LOCK.unlock();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">consumer</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            LOCK.lock();</span><br><span class="line">            <span class="keyword">while</span> (TIMESTAMP_POOL.isEmpty()) &#123;</span><br><span class="line">                CONSUME_COND.await();</span><br><span class="line">            &#125;</span><br><span class="line">            Long aLong = TIMESTAMP_POOL.removeLast();</span><br><span class="line">            System.out.println(Thread.currentThread().getName() + <span class="string">"--C--"</span> + aLong);</span><br><span class="line">            PRODUCE_COND.signal();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            LOCK.unlock();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sleep</span><span class="params">(Long sec)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        TimeUnit.SECONDS.sleep(sec);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">多线程</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/04/23/%E7%94%9F%E4%BA%A7%E8%80%85-%E6%B6%88%E8%B4%B9%E8%80%85%E6%A8%A1%E5%BC%8F/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-数组" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/04/13/%E6%95%B0%E7%BB%84/">数组</a>
+    </h1>
+  
+
+        
+        <a href="/2020/04/13/%E6%95%B0%E7%BB%84/" class="archive-article-date">
+  	<time datetime="2020-04-13T08:35:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-13</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="再学数组"><a href="#再学数组" class="headerlink" title="再学数组"></a>再学数组</h3><p>​    提到数组，肯定都不陌生，甚至还会觉得很简单。</p>
+<p>​    几乎所有编程语言中都拥有数组这种类型。</p>
+<p>​    但是，数组的下标为何是从0开始的？</p>
+<h4 id="如何实现随机访问"><a href="#如何实现随机访问" class="headerlink" title="如何实现随机访问"></a>如何实现随机访问</h4><p>​    <strong>数组（Array）是一种线性表数据结构。它用一组连续的内存空间，来存储一组具有相同类型的数据。</strong></p>
+<p>​    而且，数组还拥有连续的内存空间和相同类型的数据。正是因为这两个限制，它才有了一个堪称“杀手锏”的特性：“随机访问”。但有利就有弊，这两个限制也让数组的很多操作变得非常低效，比如要想在数组中删除、插入一个数据，为了保证连续性，就需要做大量的数据搬移工作。</p>
+<p>​    计算机会为数组创建连续的内存空间，当需要随机访问时，会调用以下公式。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a[i]_address = base_address + i * data_type_size</span><br></pre></td></tr></table></figure>
+
+<p>​    但是不要误以为数组的查找效率就是O(1)，即使是二分查找，时间复杂度也是O(logn)。所以，正确的表述应该是，数组支持随机访问，根据下标随机访问的时间复杂度为 O(1)。</p>
+<h4 id="低效的“插入”和“删除”"><a href="#低效的“插入”和“删除”" class="headerlink" title="低效的“插入”和“删除”"></a>低效的“插入”和“删除”</h4><p>​    数组在进行插入和删除的时候必然会面临大量数据移动的问题。那么如何去解决这种事情呢？</p>
+<p>​    <strong>直接将第 k 位的数据搬移到数组元素的最后，把新的元素直接放入第 k 个位置。</strong></p>
+<p><img src="https://i.loli.net/2020/04/13/4Bq9mAKV1yYfEGu.png" alt="批注 2020-04-13 164804.png"></p>
+<p>​    利用这种处理技巧，在特定场景下，在第 k 个位置插入一个元素的时间复杂度就会降为 O(1)。这个处理思想在快排中也会用到。</p>
+<p>​    </p>
+<p>​    我们再来看<strong>删除操作</strong>。</p>
+<p>​    在某些特殊场景下，我们并不一定非得追求数组中数据的连续性。如果我们将多次删除操作集中在一起执行，删除的效率是不是会提高很多呢？</p>
+<p>​    我们可以先记录下已经删除的数据。每次的删除操作并不是真正地搬移数据，只是记录数据已经被删除。当数组没有更多空间存储数据时，我们再触发执行一次真正的删除操作，这样就大大减少了删除操作导致的数据搬移。</p>
+<p>​    如果你了解 JVM，你会发现，这不就是 JVM 标记清除垃圾回收算法的核心思想吗？没错，数据结构和算法的魅力就在于此，<strong>很多时候我们并不是要去死记硬背某个数据结构或者算法，而是要学习它背后的思想和处理技巧，这些东西才是最有价值的。</strong>如果你细心留意，不管是在软件开发还是架构设计中，总能找到某些算法和数据结构的影子。</p>
+<h4 id="容器能否完全替代数组？"><a href="#容器能否完全替代数组？" class="headerlink" title="容器能否完全替代数组？"></a>容器能否完全替代数组？</h4><p>​    ArrayList 最大的优势就是可以将很多数组操作的细节封装起来。比如前面提到的数组插入、删除数据时需要搬移其他数据等。另外，它还有一个优势，就是支持<strong>动态扩容</strong>。</p>
+<p>​    数组本身在定义的时候需要预先指定大小，因为需要分配连续的内存空间。如果我们申请了大小为 10 的数组，当第 11 个数据需要存储到数组中时，我们就需要重新分配一块更大的空间，将原来的数据复制过去，然后再将新的数据插入。</p>
+<p>​    如果使用 ArrayList，我们就完全不需要关心底层的扩容逻辑，ArrayList 已经帮我们实现好了。每次存储空间不够的时候，它都会将空间自动扩容为 1.5 倍大小。</p>
+<p>​    不过，这里需要注意一点，因为扩容操作涉及内存申请和数据搬移，是比较耗时的。所以，如果事先能确定需要存储的数据大小，<strong>最好在创建 ArrayList 的时候事先指定数据大小。</strong></p>
+<p>​    1. Java ArrayList 无法存储基本类型，比如 int、long，需要封装为 Integer、Long 类，而 Autoboxing、Unboxing 则有一定的性能消耗，所以如果特别关注性能，或者希望使用基本类型，就可以选用数组。</p>
+<ol start="2">
+<li>如果数据大小事先已知，并且对数据的操作非常简单，用不到 ArrayList 提供的大部分方法，也可以直接使用数组。</li>
+<li>还有一个是我个人的喜好，当要表示多维数组时，用数组往往会更加直观。比如 Object[][] array；而用容器的话则需要这样定义：ArrayList&lt;ArrayList<object> &gt; array。</object></li>
+</ol>
+<h4 id="回到开头"><a href="#回到开头" class="headerlink" title="回到开头"></a>回到开头</h4><p>​    为什么大多数编程语言中，数组要从 0 开始编号，而不是从 1 开始呢？</p>
+<p>​    从数组存储的内存模型上来看，“下标”最确切的定义应该是“偏移（offset）”。前面也讲到，如果用 a 来表示数组的首地址，a[0]就是偏移为 0 的位置，也就是首地址，a[k]就表示偏移 k 个 type_size 的位置，所以计算 a[k]的内存地址只需要用这个公式：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a[k]_address = base_address + k * type_size</span><br></pre></td></tr></table></figure>
+
+<p>​    从 1 开始编号，每次随机访问数组元素都多了一次减法运算，对于 CPU 来说，就是多了一次减法指令。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算法</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/04/13/%E6%95%B0%E7%BB%84/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-关于MySql-DAY1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -857,206 +1037,6 @@
 
 
   
-    <article id="post-多线程学习DAY7" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/03/30/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0DAY7/">多线程学习DAY7</a>
-    </h1>
-  
-
-        
-        <a href="/2020/03/30/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0DAY7/" class="archive-article-date">
-  	<time datetime="2020-03-30T11:03:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="关于volatile的一些探究"><a href="#关于volatile的一些探究" class="headerlink" title="关于volatile的一些探究"></a>关于volatile的一些探究</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> day7;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">volatileTest</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">volatile</span> <span class="keyword">int</span> INIT_VALUE = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MAX_VALUE = <span class="number">5</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            <span class="keyword">int</span> localValue = INIT_VALUE;</span><br><span class="line">            <span class="keyword">while</span> (INIT_VALUE &lt; MAX_VALUE) &#123;</span><br><span class="line">                <span class="keyword">if</span> (INIT_VALUE != localValue) &#123;</span><br><span class="line">                    System.out.println(<span class="string">"The Value Update To "</span> + INIT_VALUE);</span><br><span class="line">                    localValue = INIT_VALUE;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,<span class="string">"READER"</span>).start();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            <span class="keyword">int</span> localValue = INIT_VALUE;</span><br><span class="line">            <span class="keyword">while</span> (INIT_VALUE &lt; MAX_VALUE) &#123;</span><br><span class="line">                System.out.println(<span class="string">"Update The Value To "</span> + ++localValue);</span><br><span class="line">                INIT_VALUE = localValue;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    Thread.sleep(<span class="number">500</span>);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,<span class="string">"UPDATER"</span>).start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Update The Value To <span class="number">1</span></span><br><span class="line">The Value Update To <span class="number">1</span></span><br><span class="line">Update The Value To <span class="number">2</span></span><br><span class="line">The Value Update To <span class="number">2</span></span><br><span class="line">Update The Value To <span class="number">3</span></span><br><span class="line">The Value Update To <span class="number">3</span></span><br><span class="line">Update The Value To <span class="number">4</span></span><br><span class="line">The Value Update To <span class="number">4</span></span><br><span class="line">Update The Value To <span class="number">5</span></span><br><span class="line"></span><br><span class="line">Process finished with exit code <span class="number">0</span></span><br></pre></td></tr></table></figure>
-
-<p>但是如果去掉volatile</p>
-<p>就会输出：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Update The Value To <span class="number">1</span></span><br><span class="line">The Value Update To <span class="number">1</span></span><br><span class="line">Update The Value To <span class="number">2</span></span><br><span class="line">Update The Value To <span class="number">3</span></span><br><span class="line">Update The Value To <span class="number">4</span></span><br><span class="line">Update The Value To <span class="number">5</span></span><br><span class="line"></span><br><span class="line">Process finished with exit code -<span class="number">1</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="并发编程的三个重要概念"><a href="#并发编程的三个重要概念" class="headerlink" title="并发编程的三个重要概念"></a>并发编程的三个重要概念</h4><ol>
-<li><p>原子性</p>
-<p>保证一个操作要么都成功要么都失败。</p>
-</li>
-<li><p>可见性</p>
-<p>线程对数据的每次操作都要对其他线程可见。</p>
-</li>
-<li><p>顺序性</p>
-<p>指令要依据编写顺序执行。</p>
-<p>指令重排只会要求最终一致性，但在多线程的环境下会出现问题。</p>
-</li>
-</ol>
-<h4 id="volatile"><a href="#volatile" class="headerlink" title="volatile"></a>volatile</h4><ol>
-<li>保证了不同线程间的可见性</li>
-<li>禁止指令重排</li>
-<li>不能保证原子性</li>
-</ol>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">多线程</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/03/30/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0DAY7/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Java8新特性学习DAY1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/03/30/Java8%E6%96%B0%E7%89%B9%E6%80%A7%E5%AD%A6%E4%B9%A0DAY1/">Java8新特性学习DAY1</a>
-    </h1>
-  
-
-        
-        <a href="/2020/03/30/Java8%E6%96%B0%E7%89%B9%E6%80%A7%E5%AD%A6%E4%B9%A0DAY1/" class="archive-article-date">
-  	<time datetime="2020-03-30T01:01:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="关于新特性"><a href="#关于新特性" class="headerlink" title="关于新特性"></a>关于新特性</h3><p>在探究之前，先写一个查找绿苹果的程序：</p>
-<p>先定义苹果</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> java8.day1;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> lombok.AllArgsConstructor;</span><br><span class="line"><span class="keyword">import</span> lombok.Data;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@AllArgsConstructor</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Apple</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String color;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> weight;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>再写过滤程序：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> java8.day1;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.Arrays;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FilterApple</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> List&lt;Apple&gt; <span class="title">getGreenApple</span><span class="params">(List&lt;Apple&gt; appleList)</span> </span>&#123;</span><br><span class="line">        List&lt;Apple&gt; resultList = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (Apple apple : appleList) &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="string">"green"</span>.equals(apple.getColor())) &#123;</span><br><span class="line">                resultList.add(apple);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> resultList;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        List&lt;Apple&gt; apples = Arrays.asList(</span><br><span class="line">                <span class="keyword">new</span> Apple(<span class="string">"green"</span>, <span class="number">120</span>),</span><br><span class="line">                <span class="keyword">new</span> Apple(<span class="string">"red"</span>, <span class="number">1221</span>),</span><br><span class="line">                <span class="keyword">new</span> Apple(<span class="string">"blue"</span>, <span class="number">1212</span>),</span><br><span class="line">                <span class="keyword">new</span> Apple(<span class="string">"green"</span>, <span class="number">4534</span>));</span><br><span class="line">        List&lt;Apple&gt; greenApple = getGreenApple(apples);</span><br><span class="line">        <span class="keyword">for</span> (Apple apple : greenApple) &#123;</span><br><span class="line">            System.out.println(apple);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>最后打印</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Apple(color=green, weight=<span class="number">120</span>)</span><br><span class="line">Apple(color=green, weight=<span class="number">4534</span>)</span><br><span class="line"></span><br><span class="line">Process finished with exit code <span class="number">0</span></span><br></pre></td></tr></table></figure>
-
-<p>但是如果这个时候需求改变了，就需要重新写新的函数，这就给增改需求带来了很大的困难。</p>
-<p>那么可以考虑一下策略模式：</p>
-<h4 id="策略模式"><a href="#策略模式" class="headerlink" title="策略模式"></a>策略模式</h4><p>先定义接口</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> java8.day1;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">AppleFilter</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">filter</span><span class="params">(Apple apple)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>再定义策略：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> java8.day1;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">getGreenApple</span> <span class="keyword">implements</span> <span class="title">AppleFilter</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">filter</span><span class="params">(Apple apple)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"green"</span>.equals(apple.getColor());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>修改查找方法：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> List&lt;Apple&gt; <span class="title">getGreenApple</span><span class="params">(List&lt;Apple&gt; apples,AppleFilter appleFilter)</span> </span>&#123;</span><br><span class="line">    List&lt;Apple&gt; resultList = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    <span class="keyword">for</span> (Apple apple : apples) &#123;</span><br><span class="line">        <span class="keyword">if</span>(appleFilter.filter(apple))</span><br><span class="line">            resultList.add(apple);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> resultList;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>那么这个时候就可以使用java8的新特性，也就是lambda表达式来进行编写：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    List&lt;Apple&gt; apples = Arrays.asList(</span><br><span class="line">            <span class="keyword">new</span> Apple(<span class="string">"green"</span>, <span class="number">120</span>),</span><br><span class="line">            <span class="keyword">new</span> Apple(<span class="string">"red"</span>, <span class="number">1221</span>),</span><br><span class="line">            <span class="keyword">new</span> Apple(<span class="string">"blue"</span>, <span class="number">1212</span>),</span><br><span class="line">            <span class="keyword">new</span> Apple(<span class="string">"green"</span>, <span class="number">4534</span>));</span><br><span class="line">    List&lt;Apple&gt; greenApple = getGreenApple(apples,apple -&gt; &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"green"</span>.equals(apple.getColor());</span><br><span class="line">    &#125;);</span><br><span class="line">    greenApple.forEach(System.out::println);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Apple(color=green, weight=<span class="number">120</span>)</span><br><span class="line">Apple(color=green, weight=<span class="number">4534</span>)</span><br><span class="line"></span><br><span class="line">Process finished with exit code <span class="number">0</span></span><br></pre></td></tr></table></figure>
-
-<p>同样也输出了结果</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Java8</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/03/30/Java8%E6%96%B0%E7%89%B9%E6%80%A7%E5%AD%A6%E4%B9%A0DAY1/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
@@ -1227,6 +1207,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">MYSQL</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
               </li>
             
             <div class="clearfix"></div>

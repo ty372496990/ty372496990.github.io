@@ -152,6 +152,97 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-关于重写和重载" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/05/19/%E5%85%B3%E4%BA%8E%E9%87%8D%E5%86%99%E5%92%8C%E9%87%8D%E8%BD%BD/">关于重写和重载</a>
+    </h1>
+  
+
+        
+        <a href="/2020/05/19/%E5%85%B3%E4%BA%8E%E9%87%8D%E5%86%99%E5%92%8C%E9%87%8D%E8%BD%BD/" class="archive-article-date">
+  	<time datetime="2020-05-18T23:00:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-19</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="再次认识重写和重载"><a href="#再次认识重写和重载" class="headerlink" title="再次认识重写和重载"></a>再次认识重写和重载</h3><h4 id="重写和重载"><a href="#重写和重载" class="headerlink" title="重写和重载"></a>重写和重载</h4><p>​    众所周知，在Java程序中，如果一个类中出现多个名字相同且参数名字相同的方法，编译会报错，如果我们想要方法名相同的方法的话，就要保证参数不同。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">小知识：这个限制可以通过字节码工具绕开。也就是说，在编译完成之后，我们可以再向 class 文件中添加方法名和参数类型相同，而返回类型不同的方法。当这种包括多个方法名相同、参数类型相同，而返回类型不同的方法的类，出现在 Java 编译器的用户类路径上时，它是怎么确定需要调用哪个方法的呢？当前版本的 Java 编译器会直接选取第一个方法名以及参数类型匹配的方法。并且，它会根据所选取方法的返回类型来决定可不可以通过编译，以及需不需要进行值转换等。</span><br></pre></td></tr></table></figure>
+
+<p>​    <strong>重载</strong>的方法在编译过程中即可完成识别。具体到每一个方法调用，Java 编译器会根据所传入参数的声明类型（注意与实际类型区分）来选取重载方法。选取的过程共分为三个阶段：</p>
+<ol>
+<li>在不考虑对基本类型自动装拆箱（auto-boxing，auto-unboxing），以及可变长参数的情况下选取重载方法；</li>
+<li>如果在第 1 个阶段中没有找到适配的方法，那么在允许自动装拆箱，但不允许可变长参数的情况下选取重载方法；</li>
+<li>如果在第 2 个阶段中没有找到适配的方法，那么在允许自动装拆箱以及可变长参数的情况下选取重载方法。</li>
+</ol>
+<p>​    但是如果Java编译器找到了多个匹配的方法，编译器会选择则合适的那一个。而决定贴切程度的一个关键就是形式参数类型的继承关系。</p>
+<p>​    如果子类定义了与父类中非私有方法同名的方法：</p>
+<pre><code>1. 如果这两个方法都是静态的，那么子类中的方法隐藏了父类中的方法。
+ 2. 如果这两个方法都不是静态的，且都不是私有的，那么子类的方法重写了父类中的方法。</code></pre><p>​    Java 是一门面向对象的编程语言，它的一个重要特性便是多态。而方法重写，正是多态最重要的一种体现方式：它允许子类在继承父类部分功能的同时，<strong>拥有自己独特的行为</strong>。</p>
+<h4 id="JVM-的静态绑定和动态绑定"><a href="#JVM-的静态绑定和动态绑定" class="headerlink" title="JVM 的静态绑定和动态绑定"></a>JVM 的静态绑定和动态绑定</h4><p>​    Java 虚拟机识别方法的关键在于类名、方法名以及<strong>方法描述符</strong>，前面两个就不做过多的解释了。至于方法描述符，它是由方法的参数类型以及返回类型所构成。在同一个类中，如果同时出现多个名字相同且描述符也相同的方法，那么 Java 虚拟机会在类的验证阶段报错。</p>
+<p>​    那么在这里就要区分两个概念：<strong>方法签名</strong>和<strong>方法描述符</strong></p>
+<pre><code>1. 方法签名是java语言层面的，不包含返回值，用于重载判定
+ 2. 方法描述符是JVM层面的，包括返回值类型。</code></pre><h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><pre><code>1. Java 中，方法存在重载以及重写的概念，重载指的是方法名相同而参数类型不相同的方法之间的关系，重写指的是方法名相同并且参数类型也相同的方法之间的关系。
+ 2. 在 Java 虚拟机中，静态绑定指的是在解析时便能够直接识别目标方法的情况，而动态绑定则指的是需要在运行过程中根据调用者的动态类型来识别目标方法的情况。由于 Java 编译器已经区分了重载的方法，因此可以认为 Java 虚拟机中不存在重载。
+ 3. 在 class 文件中，Java 编译器会用符号引用指代目标方法。在执行调用指令前，它所附带的符号引用需要被解析成实际引用。对于可以静态绑定的方法调用而言，实际引用为目标方法的指针。对于需要动态绑定的方法调用而言，实际引用为辅助动态绑定的信息。</code></pre>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">JVM</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/05/19/%E5%85%B3%E4%BA%8E%E9%87%8D%E5%86%99%E5%92%8C%E9%87%8D%E8%BD%BD/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-生产者-消费者模式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -962,81 +1053,6 @@
 
 
   
-    <article id="post-RabbiMQ回调配置" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/04/01/RabbiMQ%E5%9B%9E%E8%B0%83%E9%85%8D%E7%BD%AE/">RabbiMQ回调配置</a>
-    </h1>
-  
-
-        
-        <a href="/2020/04/01/RabbiMQ%E5%9B%9E%E8%B0%83%E9%85%8D%E7%BD%AE/" class="archive-article-date">
-  	<time datetime="2020-04-01T03:20:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-01</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> ty.rbbit.demo.fastwavebizpublisher.config;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> lombok.extern.slf4j.Slf4j;</span><br><span class="line"><span class="keyword">import</span> org.springframework.amqp.rabbit.connection.ConnectionFactory;</span><br><span class="line"><span class="keyword">import</span> org.springframework.amqp.rabbit.core.RabbitTemplate;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Bean;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Primary;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@Slf</span>4j</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TemplateConfig</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Primary</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RabbitTemplate <span class="title">createRabbitTemplate</span><span class="params">(ConnectionFactory connectionFactory)</span> </span>&#123;</span><br><span class="line">        RabbitTemplate rabbitTemplate = <span class="keyword">new</span> RabbitTemplate();</span><br><span class="line">        rabbitTemplate.setConnectionFactory(connectionFactory);</span><br><span class="line">        rabbitTemplate.setMandatory(<span class="keyword">true</span>);</span><br><span class="line"></span><br><span class="line">        rabbitTemplate.setConfirmCallback((correlationData,ack,cause) -&gt; &#123;</span><br><span class="line">            log.info(<span class="string">"ConfirmCallback:     "</span> + <span class="string">"相关数据："</span> + correlationData);</span><br><span class="line">            log.info(<span class="string">"ConfirmCallback:     "</span> + <span class="string">"确认情况："</span> + ack);</span><br><span class="line">            log.info(<span class="string">"ConfirmCallback:     "</span> + <span class="string">"原因："</span> + cause);</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        rabbitTemplate.setReturnCallback((message,replyCode,replyText,exchange,routingKey) -&gt; &#123;</span><br><span class="line">            log.info(<span class="string">"ReturnCallback:     "</span> + <span class="string">"消息："</span> + message);</span><br><span class="line">            log.info(<span class="string">"ReturnCallback:     "</span> + <span class="string">"响应码："</span> + replyCode);</span><br><span class="line">            log.info(<span class="string">"ReturnCallback:     "</span> + <span class="string">"响应信息："</span> + replyText);</span><br><span class="line">            log.info(<span class="string">"ReturnCallback:     "</span> + <span class="string">"交换机："</span> + exchange);</span><br><span class="line">            log.info(<span class="string">"ReturnCallback:     "</span> + <span class="string">"路由键："</span> + routingKey);</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> rabbitTemplate;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">RabbiMQ</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/04/01/RabbiMQ%E5%9B%9E%E8%B0%83%E9%85%8D%E7%BD%AE/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
@@ -1154,7 +1170,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">索引有关内容</a>
+                <a href="javascript:void(0)" class="js-tag color4">有关于JUC内容</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1162,11 +1178,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">有关于JUC内容</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">MYSQL</a>
+                <a href="javascript:void(0)" class="js-tag color2">索引有关内容</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1174,11 +1186,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">后台开发</a>
+                <a href="javascript:void(0)" class="js-tag color1">MYSQL</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">异常</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">后台开发</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1198,7 +1214,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">NUXT</a>
+                <a href="javascript:void(0)" class="js-tag color5">课程发布</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1206,7 +1222,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">课程发布</a>
+                <a href="javascript:void(0)" class="js-tag color5">NUXT</a>
               </li>
              
               <li class="article-tag-list-item">

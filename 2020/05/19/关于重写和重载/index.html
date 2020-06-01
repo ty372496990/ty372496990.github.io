@@ -6,14 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://ty372496990.github.io">
-  <title>Tag: mp前期准备 | 田雨的博客</title>
+  <title>关于重写和重载 | 田雨的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="田雨的博客">
-<meta property="og:url" content="http://ty372496990.github.io/tags/mp%E5%89%8D%E6%9C%9F%E5%87%86%E5%A4%87/index.html">
+  <meta name="description" content="再次认识重写和重载重写和重载​    众所周知，在Java程序中，如果一个类中出现多个名字相同且参数名字相同的方法，编译会报错，如果我们想要方法名相同的方法的话，就要保证参数不同。 1小知识：这个限制可以通过字节码工具绕开。也就是说，在编译完成之后，我们可以再向 class 文件中添加方法名和参数类型相同，而返回类型不同的方法。当这种包括多个方法名相同、参数类型相同，而返回类型不同的方法的类，出现">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于重写和重载">
+<meta property="og:url" content="http://ty372496990.github.io/2020/05/19/%E5%85%B3%E4%BA%8E%E9%87%8D%E5%86%99%E5%92%8C%E9%87%8D%E8%BD%BD/index.html">
 <meta property="og:site_name" content="田雨的博客">
+<meta property="og:description" content="再次认识重写和重载重写和重载​    众所周知，在Java程序中，如果一个类中出现多个名字相同且参数名字相同的方法，编译会报错，如果我们想要方法名相同的方法的话，就要保证参数不同。 1小知识：这个限制可以通过字节码工具绕开。也就是说，在编译完成之后，我们可以再向 class 文件中添加方法名和参数类型相同，而返回类型不同的方法。当这种包括多个方法名相同、参数类型相同，而返回类型不同的方法的类，出现">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-05-18T23:00:58.000Z">
+<meta property="article:modified_time" content="2020-05-19T00:12:26.533Z">
 <meta property="article:author" content="田雨">
+<meta property="article:tag" content="JVM">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="田雨的博客" type="application/atom+xml">
@@ -150,60 +155,184 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-关于重写和重载" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/01/24/%E5%85%B3%E4%BA%8EMybatis-Plus/" class="archive-article-date">
-  	<time datetime="2020-01-24T02:11:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-24</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/01/24/%E5%85%B3%E4%BA%8EMybatis-Plus/">关于Mybatis-Plus</a>
+    <h1 class="article-title" itemprop="name">
+      关于重写和重载
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2020/05/19/%E5%85%B3%E4%BA%8E%E9%87%8D%E5%86%99%E5%92%8C%E9%87%8D%E8%BD%BD/" class="archive-article-date">
+  	<time datetime="2020-05-18T23:00:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-19</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="再次认识重写和重载"><a href="#再次认识重写和重载" class="headerlink" title="再次认识重写和重载"></a>再次认识重写和重载</h3><h4 id="重写和重载"><a href="#重写和重载" class="headerlink" title="重写和重载"></a>重写和重载</h4><p>​    众所周知，在Java程序中，如果一个类中出现多个名字相同且参数名字相同的方法，编译会报错，如果我们想要方法名相同的方法的话，就要保证参数不同。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">小知识：这个限制可以通过字节码工具绕开。也就是说，在编译完成之后，我们可以再向 class 文件中添加方法名和参数类型相同，而返回类型不同的方法。当这种包括多个方法名相同、参数类型相同，而返回类型不同的方法的类，出现在 Java 编译器的用户类路径上时，它是怎么确定需要调用哪个方法的呢？当前版本的 Java 编译器会直接选取第一个方法名以及参数类型匹配的方法。并且，它会根据所选取方法的返回类型来决定可不可以通过编译，以及需不需要进行值转换等。</span><br></pre></td></tr></table></figure>
+
+<p>​    <strong>重载</strong>的方法在编译过程中即可完成识别。具体到每一个方法调用，Java 编译器会根据所传入参数的声明类型（注意与实际类型区分）来选取重载方法。选取的过程共分为三个阶段：</p>
+<ol>
+<li>在不考虑对基本类型自动装拆箱（auto-boxing，auto-unboxing），以及可变长参数的情况下选取重载方法；</li>
+<li>如果在第 1 个阶段中没有找到适配的方法，那么在允许自动装拆箱，但不允许可变长参数的情况下选取重载方法；</li>
+<li>如果在第 2 个阶段中没有找到适配的方法，那么在允许自动装拆箱以及可变长参数的情况下选取重载方法。</li>
+</ol>
+<p>​    但是如果Java编译器找到了多个匹配的方法，编译器会选择则合适的那一个。而决定贴切程度的一个关键就是形式参数类型的继承关系。</p>
+<p>​    如果子类定义了与父类中非私有方法同名的方法：</p>
+<pre><code>1. 如果这两个方法都是静态的，那么子类中的方法隐藏了父类中的方法。
+ 2. 如果这两个方法都不是静态的，且都不是私有的，那么子类的方法重写了父类中的方法。</code></pre><p>​    Java 是一门面向对象的编程语言，它的一个重要特性便是多态。而方法重写，正是多态最重要的一种体现方式：它允许子类在继承父类部分功能的同时，<strong>拥有自己独特的行为</strong>。</p>
+<h4 id="JVM-的静态绑定和动态绑定"><a href="#JVM-的静态绑定和动态绑定" class="headerlink" title="JVM 的静态绑定和动态绑定"></a>JVM 的静态绑定和动态绑定</h4><p>​    Java 虚拟机识别方法的关键在于类名、方法名以及<strong>方法描述符</strong>，前面两个就不做过多的解释了。至于方法描述符，它是由方法的参数类型以及返回类型所构成。在同一个类中，如果同时出现多个名字相同且描述符也相同的方法，那么 Java 虚拟机会在类的验证阶段报错。</p>
+<p>​    那么在这里就要区分两个概念：<strong>方法签名</strong>和<strong>方法描述符</strong></p>
+<pre><code>1. 方法签名是java语言层面的，不包含返回值，用于重载判定
+ 2. 方法描述符是JVM层面的，包括返回值类型。</code></pre><h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><pre><code>1. Java 中，方法存在重载以及重写的概念，重载指的是方法名相同而参数类型不相同的方法之间的关系，重写指的是方法名相同并且参数类型也相同的方法之间的关系。
+ 2. 在 Java 虚拟机中，静态绑定指的是在解析时便能够直接识别目标方法的情况，而动态绑定则指的是需要在运行过程中根据调用者的动态类型来识别目标方法的情况。由于 Java 编译器已经区分了重载的方法，因此可以认为 Java 虚拟机中不存在重载。
+ 3. 在 class 文件中，Java 编译器会用符号引用指代目标方法。在执行调用指令前，它所附带的符号引用需要被解析成实际引用。对于可以静态绑定的方法调用而言，实际引用为目标方法的指针。对于需要动态绑定的方法调用而言，实际引用为辅助动态绑定的信息。</code></pre>
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">mp前期准备</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">JVM</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://ty372496990.github.io/2020/05/19/%E5%85%B3%E4%BA%8E%E9%87%8D%E5%86%99%E5%92%8C%E9%87%8D%E8%BD%BD/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2020/04/23/%E7%94%9F%E4%BA%A7%E8%80%85-%E6%B6%88%E8%B4%B9%E8%80%85%E6%A8%A1%E5%BC%8F/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">生产者-消费者模式</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
+  
+
+  
+
+  
 
 
           </div>
@@ -226,9 +355,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,

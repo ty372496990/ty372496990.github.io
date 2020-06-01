@@ -152,6 +152,81 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-RabbiMQ回调配置" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/04/01/RabbiMQ%E5%9B%9E%E8%B0%83%E9%85%8D%E7%BD%AE/">RabbiMQ回调配置</a>
+    </h1>
+  
+
+        
+        <a href="/2020/04/01/RabbiMQ%E5%9B%9E%E8%B0%83%E9%85%8D%E7%BD%AE/" class="archive-article-date">
+  	<time datetime="2020-04-01T03:20:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-01</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> ty.rbbit.demo.fastwavebizpublisher.config;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> lombok.extern.slf4j.Slf4j;</span><br><span class="line"><span class="keyword">import</span> org.springframework.amqp.rabbit.connection.ConnectionFactory;</span><br><span class="line"><span class="keyword">import</span> org.springframework.amqp.rabbit.core.RabbitTemplate;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Bean;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Primary;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@Slf</span>4j</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TemplateConfig</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Primary</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RabbitTemplate <span class="title">createRabbitTemplate</span><span class="params">(ConnectionFactory connectionFactory)</span> </span>&#123;</span><br><span class="line">        RabbitTemplate rabbitTemplate = <span class="keyword">new</span> RabbitTemplate();</span><br><span class="line">        rabbitTemplate.setConnectionFactory(connectionFactory);</span><br><span class="line">        rabbitTemplate.setMandatory(<span class="keyword">true</span>);</span><br><span class="line"></span><br><span class="line">        rabbitTemplate.setConfirmCallback((correlationData,ack,cause) -&gt; &#123;</span><br><span class="line">            log.info(<span class="string">"ConfirmCallback:     "</span> + <span class="string">"相关数据："</span> + correlationData);</span><br><span class="line">            log.info(<span class="string">"ConfirmCallback:     "</span> + <span class="string">"确认情况："</span> + ack);</span><br><span class="line">            log.info(<span class="string">"ConfirmCallback:     "</span> + <span class="string">"原因："</span> + cause);</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        rabbitTemplate.setReturnCallback((message,replyCode,replyText,exchange,routingKey) -&gt; &#123;</span><br><span class="line">            log.info(<span class="string">"ReturnCallback:     "</span> + <span class="string">"消息："</span> + message);</span><br><span class="line">            log.info(<span class="string">"ReturnCallback:     "</span> + <span class="string">"响应码："</span> + replyCode);</span><br><span class="line">            log.info(<span class="string">"ReturnCallback:     "</span> + <span class="string">"响应信息："</span> + replyText);</span><br><span class="line">            log.info(<span class="string">"ReturnCallback:     "</span> + <span class="string">"交换机："</span> + exchange);</span><br><span class="line">            log.info(<span class="string">"ReturnCallback:     "</span> + <span class="string">"路由键："</span> + routingKey);</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> rabbitTemplate;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">RabbiMQ</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/04/01/RabbiMQ%E5%9B%9E%E8%B0%83%E9%85%8D%E7%BD%AE/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-多线程学习DAY7" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1069,91 +1144,6 @@
 
 
   
-    <article id="post-Java基础知识" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/02/21/Java%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">Java基础知识</a>
-    </h1>
-  
-
-        
-        <a href="/2020/02/21/Java%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" class="archive-article-date">
-  	<time datetime="2020-02-21T10:45:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-21</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="关于指令"><a href="#关于指令" class="headerlink" title="关于指令"></a>关于指令</h3><ul>
-<li>赋值= ，最后计算。</li>
-<li>= 右边的从左到右依次加载入操作数栈</li>
-<li>实际先算哪个，看运算符优先级。</li>
-<li>自增，自减操作都是直接修改变量的值，不经过操作数栈</li>
-<li>最后的赋值之前。临时结果也是存储在操作数栈中。</li>
-</ul>
-<h3 id="关于单例模式"><a href="#关于单例模式" class="headerlink" title="关于单例模式"></a>关于单例模式</h3><ul>
-<li>构造器私有化</li>
-<li>内部创建实例，并用静态变量保存</li>
-<li>向外提供实例</li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Java基础</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/02/21/Java%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">Next &amp;raquo;</a>
@@ -1271,7 +1261,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">索引有关内容</a>
+                <a href="javascript:void(0)" class="js-tag color4">有关于JUC内容</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1279,11 +1269,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">有关于JUC内容</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">MYSQL</a>
+                <a href="javascript:void(0)" class="js-tag color2">索引有关内容</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1291,11 +1277,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">后台开发</a>
+                <a href="javascript:void(0)" class="js-tag color1">MYSQL</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">异常</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">后台开发</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1315,7 +1305,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">NUXT</a>
+                <a href="javascript:void(0)" class="js-tag color5">课程发布</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1323,7 +1313,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">课程发布</a>
+                <a href="javascript:void(0)" class="js-tag color5">NUXT</a>
               </li>
              
               <li class="article-tag-list-item">

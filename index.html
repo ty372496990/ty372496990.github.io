@@ -152,6 +152,164 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-JavaWeb" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/07/13/JavaWeb/">JavaWeb</a>
+    </h1>
+  
+
+        
+        <a href="/2020/07/13/JavaWeb/" class="archive-article-date">
+  	<time datetime="2020-07-13T01:17:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-13</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="关于JavaWeb"><a href="#关于JavaWeb" class="headerlink" title="关于JavaWeb"></a>关于JavaWeb</h1><h2 id="1、基本概念"><a href="#1、基本概念" class="headerlink" title="1、基本概念"></a>1、基本概念</h2><p>web开发：</p>
+<ul>
+<li>web，网页</li>
+<li>静态网页<ul>
+<li>html、css。</li>
+<li>提供给所有人的数据不会变化。</li>
+</ul>
+</li>
+<li>动态网页<ul>
+<li>提供给所有人的数据会变化。</li>
+<li>几乎所有现代网站。</li>
+<li>技术栈：Servlet/JSP， ASP， PHP</li>
+</ul>
+</li>
+</ul>
+<p>在Java中，动态Web资源开发技术统称为JavaWeb。</p>
+<h2 id="2、Web应用程序"><a href="#2、Web应用程序" class="headerlink" title="2、Web应用程序"></a>2、Web应用程序</h2><blockquote>
+<p> Web应用程序：可供浏览器访问的程序</p>
+</blockquote>
+<ul>
+<li><p>a.html、b.html….多个Web资源，这些资源可以被外界访问，对外界提供服务。</p>
+</li>
+<li><p>URL</p>
+</li>
+<li><p>这个统一的Web资源会被放在同一个文件夹下，Web应用程序—-》TomCat： 服务器</p>
+<ul>
+<li>一个Web应用有多个部分构成（静态、动态Web）<ul>
+<li>html、css、js</li>
+<li>jsp、servlet</li>
+<li>Java程序</li>
+<li>jar包</li>
+<li>配置文件（properties）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>Web应用开发完毕后、若想给外部访问，需要一个服务器来统一管理。</p>
+<h2 id="3、静态Web"><a href="#3、静态Web" class="headerlink" title="3、静态Web"></a>3、静态Web</h2><ul>
+<li>*.html这些都是网页的后缀，如果服务器上存在这些，我们就可以一直进行读取。</li>
+</ul>
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/image-20200713153638381.png" alt="image-20200713153638381"></p>
+<ul>
+<li>静态Web的缺点<ul>
+<li>Web页面无法更新。所有用户看到的都一样。<ul>
+<li>伪动态</li>
+<li>JavaScript（用的最多）</li>
+</ul>
+</li>
+<li>无法与数据库交互（数据无法持久化）</li>
+</ul>
+</li>
+</ul>
+<h2 id="4、动态Web"><a href="#4、动态Web" class="headerlink" title="4、动态Web"></a>4、动态Web</h2><blockquote>
+<p>页面会动态展示：“Web的页面展示的效果因人而异”</p>
+</blockquote>
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200713155005808.png" alt="image-20200713155005808"></p>
+<p>优点：</p>
+<pre><code>- Web可以动态更新。
+- 可以与数据库交互。（数据持久化）</code></pre><h1 id="Web服务器"><a href="#Web服务器" class="headerlink" title="Web服务器"></a>Web服务器</h1><h2 id="技术"><a href="#技术" class="headerlink" title="技术"></a>技术</h2><h3 id="ASP"><a href="#ASP" class="headerlink" title="ASP"></a>ASP</h3><ul>
+<li>微软：国内最早</li>
+<li>在HTML中嵌入了VB的脚本</li>
+<li>在ASP页面中，基本一个页面都有几千行代码，页面混乱</li>
+<li>维护成本高</li>
+</ul>
+<h3 id="PHP"><a href="#PHP" class="headerlink" title="PHP"></a>PHP</h3><ul>
+<li>PHP开发速度快，功能强大，跨平台，代码很简单</li>
+<li>无法承载大访问量</li>
+</ul>
+<h3 id="JSP-Servlet"><a href="#JSP-Servlet" class="headerlink" title="JSP/Servlet"></a>JSP/Servlet</h3><ul>
+<li><p>sun公司主推的B/S架构</p>
+</li>
+<li><p>基于Java语言</p>
+</li>
+<li><p>可以承载“三高”（高并发、高可用、高性能）</p>
+</li>
+<li><p>语法像ASP</p>
+</li>
+</ul>
+<h2 id><a href="#" class="headerlink" title></a></h2><h2 id="Web服务器-1"><a href="#Web服务器-1" class="headerlink" title="Web服务器"></a>Web服务器</h2><h3 id="IIS"><a href="#IIS" class="headerlink" title="IIS"></a>IIS</h3><ul>
+<li>微软（ASP）</li>
+</ul>
+<h3 id="Tomcat"><a href="#Tomcat" class="headerlink" title="Tomcat"></a>Tomcat</h3><blockquote>
+<p><strong>Tomcat</strong>是由Apache软件基金会属下<a href="https://zh.wikipedia.org/wiki/Jakarta项目" target="_blank" rel="noopener">Jakarta项目</a>开发的<a href="https://zh.wikipedia.org/wiki/Servlet" target="_blank" rel="noopener">Servlet</a>容器，按照<a href="https://zh.wikipedia.org/wiki/Sun_Microsystems" target="_blank" rel="noopener">Sun Microsystems</a>提供的技术规范，实现了对<a href="https://zh.wikipedia.org/wiki/Servlet" target="_blank" rel="noopener">Servlet</a>和<a href="https://zh.wikipedia.org/wiki/JavaServer_Page" target="_blank" rel="noopener">JavaServer Page</a>（<a href="https://zh.wikipedia.org/wiki/JSP" target="_blank" rel="noopener">JSP</a>）的支持，并提供了作为Web服务器的一些特有功能，如Tomcat管理和控制平台、安全局管理和Tomcat阀等。由于Tomcat本身也内含了<a href="https://zh.wikipedia.org/wiki/HTTP" target="_blank" rel="noopener">HTTP</a><a href="https://zh.wikipedia.org/wiki/服务器" target="_blank" rel="noopener">服务器</a>，因此也可以视作单独的<a href="https://zh.wikipedia.org/wiki/Web服务器" target="_blank" rel="noopener">Web服务器</a>。但是，不能将Tomcat和<a href="https://zh.wikipedia.org/wiki/Apache_HTTP服务器" target="_blank" rel="noopener">Apache HTTP服务器</a>混淆，<a href="https://zh.wikipedia.org/wiki/Apache_HTTP服务器" target="_blank" rel="noopener">Apache HTTP服务器</a>是用C语言实现的HTTP<a href="https://zh.wikipedia.org/wiki/Web服务器" target="_blank" rel="noopener">Web服务器</a>；这两个HTTP web server不是捆绑在一起的。Apache Tomcat包含了配置管理工具，也可以通过编辑XML格式的配置文件来进行配置。</p>
+</blockquote>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">JavaWeb</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/07/13/JavaWeb/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Lambda表达式初步与函数式接口" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -198,8 +356,10 @@
 
 <p>由上述源码可知：</p>
 <p>但凡带有<strong>@FunctionalInterface</strong>注解的接口都可以称之为函数式接口。</p>
-<h4 id="函数式接口"><a href="#函数式接口" class="headerlink" title="函数式接口"></a>函数式接口</h4><p>所以，到底什么是函数式接口？</p>
-<p>​            <strong>一个有且仅有一个抽象方法的接口</strong></p>
+<h4 id="函数式接口"><a href="#函数式接口" class="headerlink" title="函数式接口"></a>函数式接口</h4><p>所以，到底什么是函数式接口？        </p>
+<blockquote>
+<p><strong>一个有且仅有一个抽象方法的接口</strong></p>
+</blockquote>
 <p>以下是关于函数式接口的简易Demo：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> jdk8.LambdaDay1;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span>: Tianyu</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span>: 2020/7/9 15:02</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FunctionalTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">(MyInterface myInterface)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Before Test"</span>);</span><br><span class="line">        myInterface.test();</span><br><span class="line">        System.out.println(<span class="string">"After Test"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        FunctionalTest functionalTest = <span class="keyword">new</span> FunctionalTest();</span><br><span class="line"></span><br><span class="line">        functionalTest.test(() -&gt; &#123;</span><br><span class="line">            System.out.println(<span class="string">"Functional Interface Method"</span>);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">MyInterface</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">test</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function">String <span class="title">toString</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -991,94 +1151,6 @@
 
 
   
-    <article id="post-多线程学习DAY9" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/04/02/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0DAY9/">多线程学习DAY9</a>
-    </h1>
-  
-
-        
-        <a href="/2020/04/02/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0DAY9/" class="archive-article-date">
-  	<time datetime="2020-04-02T11:55:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-02</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="原子类"><a href="#原子类" class="headerlink" title="原子类"></a>原子类</h3><p>volatile是不能保证原子性的。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">static</span> <span class="keyword">int</span> value = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">static</span> Set&lt;Integer&gt; set = Collections.synchronizedSet(<span class="keyword">new</span> HashSet&lt;&gt;());</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">    Thread threadA = <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">        <span class="keyword">while</span> (value &lt; <span class="number">500</span>)&#123;</span><br><span class="line">            set.add(value);</span><br><span class="line">            System.out.println(Thread.currentThread().getName() + <span class="string">"----&gt;"</span> + value ++);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;,<span class="string">"A"</span>);</span><br><span class="line"></span><br><span class="line">    Thread threadB = <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">        <span class="keyword">while</span> (value &lt; <span class="number">500</span>)&#123;</span><br><span class="line">            set.add(value);</span><br><span class="line">            System.out.println(Thread.currentThread().getName() + <span class="string">"----&gt;"</span> + value ++);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,<span class="string">"B"</span>);</span><br><span class="line">    Thread threadC = <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">        <span class="keyword">while</span> (value &lt; <span class="number">500</span>) &#123;</span><br><span class="line">            set.add(value);</span><br><span class="line">            System.out.println(Thread.currentThread().getName() + <span class="string">"----&gt;"</span> + value++);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;, <span class="string">"C"</span>);</span><br><span class="line">    threadA.start();</span><br><span class="line">    threadB.start();</span><br><span class="line">    threadC.start();</span><br><span class="line">    threadA.join();</span><br><span class="line">    threadB.join();</span><br><span class="line">    threadC.join();</span><br><span class="line">    System.out.println(set.size());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">A----&gt;<span class="number">494</span></span><br><span class="line">C----&gt;<span class="number">493</span></span><br><span class="line">A----&gt;<span class="number">496</span></span><br><span class="line">B----&gt;<span class="number">495</span></span><br><span class="line">A----&gt;<span class="number">498</span></span><br><span class="line">C----&gt;<span class="number">497</span></span><br><span class="line">B----&gt;<span class="number">499</span></span><br><span class="line"><span class="number">498</span></span><br></pre></td></tr></table></figure>
-
-<p>最后的结果中set大小不为500；</p>
-<p>可以用AtomicInteger来保证操作的原子性：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> day9;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.Collections;</span><br><span class="line"><span class="keyword">import</span> java.util.HashSet;</span><br><span class="line"><span class="keyword">import</span> java.util.Set;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.atomic.AtomicInteger;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AtomicTest</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> AtomicInteger value = <span class="keyword">new</span> AtomicInteger(<span class="number">0</span>);</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">static</span> Set&lt;Integer&gt; set = Collections.synchronizedSet(<span class="keyword">new</span> HashSet&lt;&gt;());</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line"></span><br><span class="line">        Thread threadA = <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            <span class="keyword">int</span> x = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">while</span> (x &lt; <span class="number">500</span>)&#123;</span><br><span class="line">                <span class="keyword">int</span> v = value.getAndIncrement();</span><br><span class="line">                set.add(v);</span><br><span class="line">                System.out.println(Thread.currentThread().getName() + <span class="string">"----&gt;"</span> + v);</span><br><span class="line">                x ++;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;,<span class="string">"A"</span>);</span><br><span class="line"></span><br><span class="line">        Thread threadB = <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            <span class="keyword">int</span> x = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">while</span> (x &lt; <span class="number">500</span>)&#123;</span><br><span class="line">                <span class="keyword">int</span> v = value.getAndIncrement();</span><br><span class="line">                set.add(v);</span><br><span class="line">                System.out.println(Thread.currentThread().getName() + <span class="string">"----&gt;"</span> + v);</span><br><span class="line">                x++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,<span class="string">"B"</span>);</span><br><span class="line">        Thread threadC = <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            <span class="keyword">int</span> x = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">while</span> (x &lt; <span class="number">500</span>) &#123;</span><br><span class="line">                <span class="keyword">int</span> v = value.getAndIncrement();</span><br><span class="line">                set.add(v);</span><br><span class="line">                System.out.println(Thread.currentThread().getName() + <span class="string">"----&gt;"</span> + v);</span><br><span class="line">                x ++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;, <span class="string">"C"</span>);</span><br><span class="line">        threadA.start();</span><br><span class="line">        threadB.start();</span><br><span class="line">        threadC.start();</span><br><span class="line">        threadA.join();</span><br><span class="line">        threadB.join();</span><br><span class="line">        threadC.join();</span><br><span class="line">        System.out.println(set.size());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">A----&gt;<span class="number">1498</span></span><br><span class="line">A----&gt;<span class="number">1499</span></span><br><span class="line"><span class="number">1500</span></span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">多线程</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/04/02/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0DAY9/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
@@ -1261,6 +1333,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Lambda表达式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">JavaWeb</a>
               </li>
             
             <div class="clearfix"></div>

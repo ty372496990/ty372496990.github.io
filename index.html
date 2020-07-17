@@ -152,6 +152,128 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Servlet" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/07/14/Servlet/">Servlet</a>
+    </h1>
+  
+
+        
+        <a href="/2020/07/14/Servlet/" class="archive-article-date">
+  	<time datetime="2020-07-14T02:10:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-14</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Servlet"><a href="#Servlet" class="headerlink" title="Servlet"></a>Servlet</h1><h2 id="Servlet简介"><a href="#Servlet简介" class="headerlink" title="Servlet简介"></a>Servlet简介</h2><blockquote>
+<p><strong>Servlet</strong>（Server Applet），全称<strong>Java Servlet</strong>，未有中文译文。是用<a href="https://zh.wikipedia.org/wiki/Java" target="_blank" rel="noopener">Java</a>编写的<a href="https://zh.wikipedia.org/wiki/服务器" target="_blank" rel="noopener">服务器</a>端<a href="https://zh.wikipedia.org/wiki/程序" target="_blank" rel="noopener">程序</a>。其主要功能在于交互式地浏览和修改数据，生成动态<a href="https://zh.wikipedia.org/wiki/Web" target="_blank" rel="noopener">Web</a>内容。狭义的Servlet是指Java语言实现的一个<a href="https://zh.wikipedia.org/wiki/接口" target="_blank" rel="noopener">接口</a>，广义的Servlet是指任何实现了这个Servlet接口的<a href="https://zh.wikipedia.org/wiki/类_(计算机科学)" target="_blank" rel="noopener">类</a>，一般情况下，人们将Servlet理解为后者。</p>
+<p>Servlet运行于支持Java的<a href="https://zh.wikipedia.org/wiki/应用服务器" target="_blank" rel="noopener">应用服务器</a>中。从实现上讲，Servlet可以响应任何类型的请求，但绝大多数情况下Servlet只用来扩展基于<a href="https://zh.wikipedia.org/wiki/HTTP" target="_blank" rel="noopener">HTTP</a><a href="https://zh.wikipedia.org/wiki/协议" target="_blank" rel="noopener">协议</a>的<a href="https://zh.wikipedia.org/wiki/Web服务器" target="_blank" rel="noopener">Web服务器</a>。</p>
+<p>最早支持Servlet标准的是JavaSoft的Java Web Server。此后，一些其它的基于Java的Web服务器开始支持标准的Servlet。</p>
+</blockquote>
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200714101301104.png" alt="image-20200714101301104"></p>
+<ul>
+<li>Servlet就是Sun公司开发的一种动态Web技术</li>
+<li>Sun在这些API中提供一个接口： Servlet<ul>
+<li>编写一个类，实现Servlet接口</li>
+<li>把开发好的Java类部署到Web服务器中</li>
+</ul>
+</li>
+</ul>
+<p><strong>把实现了Servlet接口的Java程序叫做 Servlet</strong></p>
+<h3 id="HelloServlet"><a href="#HelloServlet" class="headerlink" title="HelloServlet"></a>HelloServlet</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.ty.servlet;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.servlet.ServletException;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServlet;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletRequest;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletResponse;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.PrintWriter;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloServlet</span> <span class="keyword">extends</span> <span class="title">HttpServlet</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doPost</span><span class="params">(HttpServletRequest req, HttpServletResponse resp)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">        PrintWriter writer = resp.getWriter();</span><br><span class="line">        writer.println(<span class="string">"Hello,Servlet!"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doGet</span><span class="params">(HttpServletRequest req, HttpServletResponse resp)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.doPost(req, resp);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Servlet原理"><a href="#Servlet原理" class="headerlink" title="Servlet原理"></a>Servlet原理</h3><p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200714153505697.png" alt="image-20200714153505697"></p>
+<h3 id="Mapping问题"><a href="#Mapping问题" class="headerlink" title="Mapping问题"></a>Mapping问题</h3><ul>
+<li><p>一个Servlet可以映射一个路径</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>hello<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/hello<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>一个Servlet可以映射多个路径</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>hello<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/hello/*<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>可以自定义后缀</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>hello<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>*.ty<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>优先级问题</p>
+<p>如果制定了特定路径，特定路径优先级最高。</p>
+</li>
+</ul>
+<h3 id="ServletContext"><a href="#ServletContext" class="headerlink" title="ServletContext"></a>ServletContext</h3><p>Web容器在启动的时候，它会为每个web程序都创建一个对应的ServletContext对象，它代表了当前Web应用</p>
+<ul>
+<li><p>共享数据</p>
+<p>在一个Servlet中保存的数据可以在另一个Servlet中拿到。</p>
+</li>
+</ul>
+<h3 id="HttpServletResponse"><a href="#HttpServletResponse" class="headerlink" title="HttpServletResponse"></a>HttpServletResponse</h3><p>Web服务器接收到客户端的http请求，针对这个请求，分别创建一个代表请求的HttpServletRequest对象，代表响应的一个HttpServletResponse：</p>
+<ul>
+<li>如果要获取客户端请求过来的参数，找HttpServletRequest</li>
+<li>如果要给客户端响应一些信息，找HttpServletResponse</li>
+</ul>
+<h4 id="简单分类"><a href="#简单分类" class="headerlink" title="简单分类"></a>简单分类</h4><p><strong>负责向浏览器发送数据的方法</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">ServletOutputStream <span class="title">getOutputStream</span><span class="params">()</span> <span class="keyword">throws</span> IOException</span>;</span><br><span class="line"><span class="function">PrintWriter <span class="title">getWriter</span><span class="params">()</span> <span class="keyword">throws</span> IOException</span>;</span><br></pre></td></tr></table></figure>
+
+<p><strong>负责向浏览器发送响应头的方法</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">setDateHeader</span><span class="params">(String var1, <span class="keyword">long</span> var2)</span></span>;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">void</span> <span class="title">addDateHeader</span><span class="params">(String var1, <span class="keyword">long</span> var2)</span></span>;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">void</span> <span class="title">setHeader</span><span class="params">(String var1, String var2)</span></span>;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">void</span> <span class="title">addHeader</span><span class="params">(String var1, String var2)</span></span>;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">void</span> <span class="title">setIntHeader</span><span class="params">(String var1, <span class="keyword">int</span> var2)</span></span>;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">void</span> <span class="title">addIntHeader</span><span class="params">(String var1, <span class="keyword">int</span> var2)</span></span>;</span><br></pre></td></tr></table></figure>
+
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">JavaWeb</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/07/14/Servlet/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-JavaWeb" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -248,14 +370,36 @@
 </li>
 <li><p>可以承载“三高”（高并发、高可用、高性能）</p>
 </li>
-<li><p>语法像ASP</p>
+<li><p>语法像ASP </p>
 </li>
 </ul>
-<h2 id><a href="#" class="headerlink" title></a></h2><h2 id="Web服务器-1"><a href="#Web服务器-1" class="headerlink" title="Web服务器"></a>Web服务器</h2><h3 id="IIS"><a href="#IIS" class="headerlink" title="IIS"></a>IIS</h3><ul>
+<hr>
+<h2 id="Web服务器-1"><a href="#Web服务器-1" class="headerlink" title="Web服务器"></a>Web服务器</h2><h3 id="IIS"><a href="#IIS" class="headerlink" title="IIS"></a>IIS</h3><ul>
 <li>微软（ASP）</li>
 </ul>
 <h3 id="Tomcat"><a href="#Tomcat" class="headerlink" title="Tomcat"></a>Tomcat</h3><blockquote>
 <p><strong>Tomcat</strong>是由Apache软件基金会属下<a href="https://zh.wikipedia.org/wiki/Jakarta项目" target="_blank" rel="noopener">Jakarta项目</a>开发的<a href="https://zh.wikipedia.org/wiki/Servlet" target="_blank" rel="noopener">Servlet</a>容器，按照<a href="https://zh.wikipedia.org/wiki/Sun_Microsystems" target="_blank" rel="noopener">Sun Microsystems</a>提供的技术规范，实现了对<a href="https://zh.wikipedia.org/wiki/Servlet" target="_blank" rel="noopener">Servlet</a>和<a href="https://zh.wikipedia.org/wiki/JavaServer_Page" target="_blank" rel="noopener">JavaServer Page</a>（<a href="https://zh.wikipedia.org/wiki/JSP" target="_blank" rel="noopener">JSP</a>）的支持，并提供了作为Web服务器的一些特有功能，如Tomcat管理和控制平台、安全局管理和Tomcat阀等。由于Tomcat本身也内含了<a href="https://zh.wikipedia.org/wiki/HTTP" target="_blank" rel="noopener">HTTP</a><a href="https://zh.wikipedia.org/wiki/服务器" target="_blank" rel="noopener">服务器</a>，因此也可以视作单独的<a href="https://zh.wikipedia.org/wiki/Web服务器" target="_blank" rel="noopener">Web服务器</a>。但是，不能将Tomcat和<a href="https://zh.wikipedia.org/wiki/Apache_HTTP服务器" target="_blank" rel="noopener">Apache HTTP服务器</a>混淆，<a href="https://zh.wikipedia.org/wiki/Apache_HTTP服务器" target="_blank" rel="noopener">Apache HTTP服务器</a>是用C语言实现的HTTP<a href="https://zh.wikipedia.org/wiki/Web服务器" target="_blank" rel="noopener">Web服务器</a>；这两个HTTP web server不是捆绑在一起的。Apache Tomcat包含了配置管理工具，也可以通过编辑XML格式的配置文件来进行配置。</p>
+</blockquote>
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200713193513432.png" alt="image-20200713193513432"></p>
+<ul>
+<li>关于Tomcat：<ul>
+<li>下载OR安装</li>
+<li>配置以及目录结构</li>
+</ul>
+</li>
+</ul>
+<h4 id="Tomcat下载及安装"><a href="#Tomcat下载及安装" class="headerlink" title="Tomcat下载及安装"></a>Tomcat下载及安装</h4><p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200713194131400.png" alt="image-20200713194131400"></p>
+<ul>
+<li>下载页面：</li>
+</ul>
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200713194304118.png" alt="image-20200713194304118"></p>
+<ul>
+<li>启动以及配置</li>
+</ul>
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200713194911014.png" alt="image-20200713194911014"></p>
+<p>进入bin目录，使用startup.bat启动Tomcat，使用shutdown.bat停止Tomcat</p>
+<blockquote>
+<p>访问地址： <a href="http://localhost:8080/" target="_blank" rel="noopener">http://localhost:8080/</a></p>
 </blockquote>
 
       
@@ -1044,84 +1188,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2020/04/03/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0DAY10/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-JVM基础知识-运行时数据区域" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/04/03/JVM%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86-%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%E5%9F%9F/">JVM基础知识--运行时数据区域</a>
-    </h1>
-  
-
-        
-        <a href="/2020/04/03/JVM%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86-%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%E5%9F%9F/" class="archive-article-date">
-  	<time datetime="2020-04-03T08:59:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-03</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="数据区域"><a href="#数据区域" class="headerlink" title="数据区域"></a>数据区域</h3><p><img src="https://i.loli.net/2020/04/03/p41RAgzHhfPrMq9.png" alt="批注 2020-04-03 170229.png"></p>
-<h4 id="程序计数器"><a href="#程序计数器" class="headerlink" title="程序计数器"></a>程序计数器</h4><p>​    线程私有，是一块较小的内存空间，是当前线程所执行的字节码的行号指示器。</p>
-<h4 id="Java虚拟机栈"><a href="#Java虚拟机栈" class="headerlink" title="Java虚拟机栈"></a>Java虚拟机栈</h4><p>​    与程序计数器一样，虚拟机栈也是线程私有的，它的生命周期与线程相同。每个方法在执行时都会同时创建一个栈帧。用于存储局部变量表、操作数栈、动态链接</p>
-<p>方法出口等信息。一个方法从调用到执行的过程，就是入栈到出栈的过程。</p>
-<h4 id="本地方法栈"><a href="#本地方法栈" class="headerlink" title="本地方法栈"></a>本地方法栈</h4><p>调用本地方法，也就是一些C代码。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">JVM</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/04/03/JVM%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86-%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%E5%9F%9F/">展开全文 >></a>
         </p>
       
 

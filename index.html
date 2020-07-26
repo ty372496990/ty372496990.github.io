@@ -152,6 +152,299 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-回顾JDBC" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/07/25/%E5%9B%9E%E9%A1%BEJDBC/">回顾JDBC</a>
+    </h1>
+  
+
+        
+        <a href="/2020/07/25/%E5%9B%9E%E9%A1%BEJDBC/" class="archive-article-date">
+  	<time datetime="2020-07-25T07:53:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-25</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="回顾JDBC"><a href="#回顾JDBC" class="headerlink" title="回顾JDBC"></a>回顾JDBC</h1><blockquote>
+<p>什么是JDBC？</p>
+</blockquote>
+<p><strong>使用Java链接数据库</strong></p>
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200725160448961.png" alt="image-20200725160448961"></p>
+<p>链接数据库需要的Jar包：</p>
+<ul>
+<li><p>如果是使用Maven来管理Jar包，那么可以进入<a href="https://mvnrepository.com/artifact/mysql/mysql-connector-java/8.0.19查找相关XML标签，复制进pom.xml即可：" target="_blank" rel="noopener">https://mvnrepository.com/artifact/mysql/mysql-connector-java/8.0.19查找相关XML标签，复制进pom.xml即可：</a></p>
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200725162905791.png" alt></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">xmlns</span>=<span class="string">"http://maven.apache.org/POM/4.0.0"</span></span></span><br><span class="line"><span class="tag">         <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag">         <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">parent</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>day1<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.example<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">parent</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>servlet-test<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>javax.servlet<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>javax.servlet-api<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.0.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">scope</span>&gt;</span>provided<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- https://mvnrepository.com/artifact/javax.servlet.jsp/javax.servlet.jsp-api --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>javax.servlet.jsp<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>javax.servlet.jsp-api<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.3.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">scope</span>&gt;</span>provided<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>mysql<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mysql-connector-java<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>8.0.19<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="测试JDBC"><a href="#测试JDBC" class="headerlink" title="测试JDBC"></a>测试JDBC</h2><h3 id="创建数据表"><a href="#创建数据表" class="headerlink" title="创建数据表"></a>创建数据表</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="keyword">users</span> (</span><br><span class="line">	<span class="keyword">id</span> <span class="built_in">INT</span> PRIMARY <span class="keyword">KEY</span>,</span><br><span class="line">	<span class="string">`name`</span> <span class="built_in">VARCHAR</span>(<span class="number">20</span>),</span><br><span class="line">	<span class="string">`password`</span> <span class="built_in">VARCHAR</span>(<span class="number">30</span>),</span><br><span class="line">	email <span class="built_in">VARCHAR</span>(<span class="number">60</span>),</span><br><span class="line">	birthday <span class="built_in">DATE</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> <span class="keyword">users</span></span><br><span class="line"><span class="keyword">VALUES</span>(<span class="number">1</span>, <span class="string">'田雨'</span>, <span class="string">'123456'</span>, <span class="string">'ty37249624341990@163.com'</span>, <span class="string">'2020-01-01'</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> <span class="keyword">users</span></span><br><span class="line"><span class="keyword">VALUES</span>(<span class="number">2</span>, <span class="string">'田2'</span>, <span class="string">'12345234'</span>, <span class="string">'ty372424396990@163.com'</span>, <span class="string">'2020-02-01'</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> <span class="keyword">users</span></span><br><span class="line"><span class="keyword">VALUES</span>(<span class="number">3</span>, <span class="string">'田3'</span>, <span class="string">'1234522346'</span>, <span class="string">'ty372423496990@163.com'</span>, <span class="string">'2020-03-01'</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> <span class="keyword">users</span></span><br><span class="line"><span class="keyword">VALUES</span>(<span class="number">4</span>, <span class="string">'田4'</span>, <span class="string">'1234234256'</span>, <span class="string">'ty3724242396990@163.com'</span>, <span class="string">'2020-04-01'</span>);</span><br></pre></td></tr></table></figure>
+
+<p>创建成功</p>
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200725162525292.png" alt="image-20200725162525292"></p>
+<h3 id="编写JDBC相关测试类"><a href="#编写JDBC相关测试类" class="headerlink" title="编写JDBC相关测试类"></a>编写JDBC相关测试类</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.ty.servlet;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.sql.*;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span>: Tianyu</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span>: 2020/7/25 16:48</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">jdbcTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> ClassNotFoundException, SQLException </span>&#123;</span><br><span class="line">        <span class="comment">//配置基本信息</span></span><br><span class="line">        String url = <span class="string">"jdbc:mysql://127.0.0.1:3306/study?serverTimezone=Asia/Shanghai&amp;characterEncoding=utf8&amp;useSSL=false"</span>;</span><br><span class="line">        String username = <span class="string">"root"</span>;</span><br><span class="line">        String password = <span class="string">"ty980619"</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//加载驱动</span></span><br><span class="line">        Class.forName(<span class="string">"com.mysql.cj.jdbc.Driver"</span>);</span><br><span class="line">        <span class="comment">//链接数据库</span></span><br><span class="line">        Connection connection = DriverManager.getConnection(url,username,password);</span><br><span class="line">        <span class="comment">//向数据库发送SQL</span></span><br><span class="line">        Statement statement = connection.createStatement();</span><br><span class="line">        <span class="comment">//编写SQL</span></span><br><span class="line">        String sql = <span class="string">"select * from users"</span>;</span><br><span class="line">        <span class="comment">//执行SQL,返回一个结果集</span></span><br><span class="line">        ResultSet resultSet = statement.executeQuery(sql);</span><br><span class="line">        <span class="comment">//遍历结果集</span></span><br><span class="line">        <span class="keyword">while</span> (resultSet.next()) &#123;</span><br><span class="line">            System.out.println(<span class="string">"id: "</span> + resultSet.getObject(<span class="string">"id"</span>));</span><br><span class="line">            System.out.println(<span class="string">"name: "</span> + resultSet.getObject(<span class="string">"name"</span>));</span><br><span class="line">            System.out.println(<span class="string">"password: "</span> + resultSet.getObject(<span class="string">"password"</span>));</span><br><span class="line">            System.out.println(<span class="string">"email: "</span> + resultSet.getObject(<span class="string">"email"</span>));</span><br><span class="line">            System.out.println(<span class="string">"birthday: "</span> + resultSet.getObject(<span class="string">"birthday"</span>));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//关闭资源</span></span><br><span class="line">        connection.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出成功</p>
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200725170631578.png" alt="image-20200725170631578"></p>
+<p>也可以通过预编译的方式来实行Insert操作</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.ty.servlet;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.sql.*;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span>: Tianyu</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span>: 2020/7/25 16:48</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">jdbcTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> ClassNotFoundException, SQLException </span>&#123;</span><br><span class="line">        <span class="comment">//配置基本信息</span></span><br><span class="line">        String url = <span class="string">"jdbc:mysql://127.0.0.1:3306/study?serverTimezone=Asia/Shanghai&amp;characterEncoding=utf8&amp;useSSL=false"</span>;</span><br><span class="line">        String username = <span class="string">"root"</span>;</span><br><span class="line">        String password = <span class="string">"ty980619"</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//加载驱动</span></span><br><span class="line">        Class.forName(<span class="string">"com.mysql.cj.jdbc.Driver"</span>);</span><br><span class="line">        <span class="comment">//链接数据库</span></span><br><span class="line">        Connection connection = DriverManager.getConnection(url, username, password);</span><br><span class="line">        <span class="comment">//编写SQL</span></span><br><span class="line">        String sql = <span class="string">"insert into users (id, name, password, email, birthday) "</span> +</span><br><span class="line">                <span class="string">"values (?,?,?,?,?);"</span></span><br><span class="line">        <span class="comment">//5, '田5', 'tyiaydi', '231093@wqe.com', '2020-01-06'</span></span><br><span class="line">        PreparedStatement preparedStatement = connection.prepareStatement(sql);</span><br><span class="line">        <span class="comment">//预编译</span></span><br><span class="line">        preparedStatement.setInt(<span class="number">1</span>,<span class="number">5</span>);</span><br><span class="line">        preparedStatement.setString(<span class="number">2</span>,<span class="string">"田雨"</span>);</span><br><span class="line">        preparedStatement.setString(<span class="number">3</span>,<span class="string">"tyiaydi"</span>);</span><br><span class="line">        preparedStatement.setString(<span class="number">4</span>,<span class="string">"231093@wqe.com"</span>);</span><br><span class="line">        preparedStatement.setDate(<span class="number">5</span>,<span class="keyword">new</span> Date(<span class="keyword">new</span> java.util.Date().getTime()));</span><br><span class="line">        <span class="comment">//执行SQL</span></span><br><span class="line">        <span class="keyword">int</span> i = preparedStatement.executeUpdate();</span><br><span class="line">        <span class="keyword">if</span> (i &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            System.out.println(<span class="string">"插入成功！"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">  </span><br><span class="line">        <span class="comment">//关闭资源</span></span><br><span class="line">        connection.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>插入成功</p>
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200725201730947.png" alt="image-20200725201730947"></p>
+<p>再次查询数据表，可以确认插入完成。</p>
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200725201831309.png" alt="image-20200725201831309"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">JDBC</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/07/25/%E5%9B%9E%E9%A1%BEJDBC/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-Session相关" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/07/24/Session%E7%9B%B8%E5%85%B3/">Session相关</a>
+    </h1>
+  
+
+        
+        <a href="/2020/07/24/Session%E7%9B%B8%E5%85%B3/" class="archive-article-date">
+  	<time datetime="2020-07-24T01:26:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-24</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Session（重点）"><a href="#Session（重点）" class="headerlink" title="Session（重点）"></a>Session（重点）</h1><blockquote>
+<p>在计算机中，尤其是在网络应用中，称为“会话控制”。Session对象存储特定用户会话所需的属性及配置信息。这样，当用户在应用程序的Web页之间跳转时，存储在Session对象中的变量将不会丢失，而是在整个用户会话中一直存在下去。当用户请求来自应用程序的 Web页时，如果该用户还没有会话，则Web服务器将自动创建一个 Session对象。当会话过期或被放弃后，服务器将终止该会话。Session 对象最常见的一个用法就是存储用户的首选项。例如，如果用户指明不喜欢查看图形，就可以将该信息存储在Session对象中。有关使用Session 对象的详细信息，请参阅“ASP应用程序”部分的“管理会话”。注意会话状态仅在支持cookie的浏览器中保留</p>
+</blockquote>
+<ul>
+<li>服务器会为每个用户（浏览器）创建一个Session对象。</li>
+<li>一个Session独占一个浏览器，只要浏览器未关闭则Session存在。</li>
+<li>用户登陆之后整个网站都可以访问。</li>
+</ul>
+<h2 id="Session使用"><a href="#Session使用" class="headerlink" title="Session使用"></a>Session使用</h2><p>首先。再Servlet中要使用Session的话，可以创建<strong>HttpSession</strong>对象：</p>
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200724093718509.png" alt="image-20200724093718509"></p>
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200724094124084.png" alt="image-20200724094124084"></p>
+<h2 id="Session测试"><a href="#Session测试" class="headerlink" title="Session测试"></a>Session测试</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.ty.servlet;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.servlet.ServletException;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServlet;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletRequest;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletResponse;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpSession;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span>: Tianyu</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span>: 2020/7/24 9:31</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SessionServlet01</span> <span class="keyword">extends</span> <span class="title">HttpServlet</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doGet</span><span class="params">(HttpServletRequest req, HttpServletResponse resp)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">        <span class="comment">//解决乱码问题</span></span><br><span class="line">        req.setCharacterEncoding(<span class="string">"UTF-8"</span>);</span><br><span class="line">        resp.setCharacterEncoding(<span class="string">"UTF-8"</span>);</span><br><span class="line">        resp.setContentType(<span class="string">"text/html"</span>);</span><br><span class="line">        <span class="comment">//创建Session</span></span><br><span class="line">        HttpSession httpSession = req.getSession();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//向Session中保存数据</span></span><br><span class="line">        httpSession.setAttribute(<span class="string">"name"</span>, <span class="string">"田雨"</span>);</span><br><span class="line">        <span class="comment">//判断Session是否新创建</span></span><br><span class="line">        <span class="keyword">if</span> (httpSession.isNew()) &#123;</span><br><span class="line">            resp.getWriter().print(<span class="string">"Session创建成功！，ID："</span> + httpSession.getId());</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            resp.getWriter().print(<span class="string">"Session已经创建！，ID："</span> + httpSession.getId());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doPost</span><span class="params">(HttpServletRequest req, HttpServletResponse resp)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">        doGet(req, resp);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200724095200324.png" alt="image-20200724095200324"></p>
+<p>打开浏览器后台，可以看到存储在Cookie中的ID值：</p>
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200724100430866.png" alt="image-20200724100430866"></p>
+<p>再次发出请求，打开后台的<strong>网络</strong>一栏，可以发现请求的具体信息。</p>
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200724100752275.png" alt="image-20200724100752275"></p>
+<h2 id="Cookie与Session的区别"><a href="#Cookie与Session的区别" class="headerlink" title="Cookie与Session的区别"></a>Cookie与Session的区别</h2><ul>
+<li>Cookie是把用户的数据写给用户的浏览器，浏览器保存（可以保存多个）</li>
+<li>Session把用户的数据写到用户独占的Session中，服务器端保存（保存重要的信息、减少服务器端的资源浪费）</li>
+<li>Session对象有服务器创建</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Session</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/07/24/Session%E7%9B%B8%E5%85%B3/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-Stream源码探究" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/07/18/Stream%E6%BA%90%E7%A0%81%E6%8E%A2%E7%A9%B6/">Stream源码探究</a>
+    </h1>
+  
+
+        
+        <a href="/2020/07/18/Stream%E6%BA%90%E7%A0%81%E6%8E%A2%E7%A9%B6/" class="archive-article-date">
+  	<time datetime="2020-07-18T01:48:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-18</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="关于Stream"><a href="#关于Stream" class="headerlink" title="关于Stream"></a>关于Stream</h1><h2 id="初步使用"><a href="#初步使用" class="headerlink" title="初步使用"></a>初步使用</h2><p>在Stream源码的JavaDoc中对Stream接口是这样描述的：</p>
+<blockquote>
+<p>A sequence of elements supporting sequential and parallel aggregate operations. The following example illustrates an aggregate operation using <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html" target="_blank" rel="noopener"><code>Stream</code></a> and <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/IntStream.html" target="_blank" rel="noopener"><code>IntStream</code></a>:</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> sum = widgets.stream()</span><br><span class="line">                 .filter(w -&gt; w.getColor() == RED)</span><br><span class="line">                 .mapToInt(w -&gt; w.getWeight())</span><br><span class="line">                 .sum();</span><br></pre></td></tr></table></figure>
+
+<p>在上述操作中，widgets是一个集合，将它转换成Stream流之后进行了3个操作：</p>
+<ul>
+<li>通过过滤方法（<strong>filter</strong>）将集合中的红色条件元素过滤出来</li>
+<li>通过映射方法（<strong>mapToInt</strong>）将集合中的元素映射成整型</li>
+<li>最后调用求和（<strong>sum</strong>）方法将所有值求和</li>
+</ul>
+<p>在Java Doc中是这样描述这个过程的：</p>
+<blockquote>
+<p>In this example, <code>widgets</code> is a <code>Collection&lt;Widget&gt;</code>. We create a stream of <code>Widget</code> objects via <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html#stream--" target="_blank" rel="noopener"><code>Collection.stream()</code></a>, filter it to produce a stream containing only the red widgets, and then transform it into a stream of <code>int</code> values representing the weight of each red widget. Then this stream is summed to produce a total weight.</p>
+</blockquote>
+<p>除了Stream之外，还有一些对应基本数据类型的流，例如 <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/IntStream.html" target="_blank" rel="noopener"><code>IntStream</code></a>、 <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/LongStream.html" target="_blank" rel="noopener"><code>LongStream</code></a>、 <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/DoubleStream.html" target="_blank" rel="noopener"><code>DoubleStream</code></a>、值得注意的是，Stream与这些基本类型流是同级的关系。</p>
+<h2 id="Stream-pipeline"><a href="#Stream-pipeline" class="headerlink" title="Stream pipeline"></a>Stream pipeline</h2><p>在官方文档中，提出了一个“流管道”的概念。所有的流操作都归于“流管道”</p>
+<blockquote>
+<p>To perform a computation, stream <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/package-summary.html#StreamOps" target="_blank" rel="noopener">operations</a> are composed into a <em>stream pipeline</em>.</p>
+</blockquote>
+<p>其中“流管道”会包含一个“源”（可能是一个数组，一个集合，一个生成器函数或是一个I/O通道），其中包含一个或多个中间操作（第一部分操作中的filter、mapToInt等操作），和一个终端操作（sum、forEach、count等操作）。</p>
+<h2 id="集合与流"><a href="#集合与流" class="headerlink" title="集合与流"></a>集合与流</h2><p>集合与流有一些相似性，但是他们的目的并不相同：其中集合是为了更加高效的对集合元素进行管理和访问。而对于流来说，并没有一个能直接访问元素的方法，流更注重于源以及对源的一些中间操作。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Java8</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/07/18/Stream%E6%BA%90%E7%A0%81%E6%8E%A2%E7%A9%B6/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Servlet" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -945,281 +1238,9 @@
 
 
   
-    <article id="post-关于MySql-DAY1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/04/08/%E5%85%B3%E4%BA%8EMySql-DAY1/">关于MySql DAY1</a>
-    </h1>
-  
-
-        
-        <a href="/2020/04/08/%E5%85%B3%E4%BA%8EMySql-DAY1/" class="archive-article-date">
-  	<time datetime="2020-04-08T07:22:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="一条SQL查询语句是如何执行的？"><a href="#一条SQL查询语句是如何执行的？" class="headerlink" title="一条SQL查询语句是如何执行的？"></a>一条SQL查询语句是如何执行的？</h1><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from T where ID=10；</span><br></pre></td></tr></table></figure>
-
-<p>​    当我们输入这一条查询语句，得到查询结果。但我们仍然不知道其中的执行过程，现在。我给出的是 MySQL 的基本架构示意图，从中你可以清楚地看到 SQL 语句在 MySQL 的各个功能模块中的执行过程。</p>
-<p><img src="https://i.loli.net/2020/04/08/e3782csFuLAyNnl.png" alt="批注 2020-04-08 152516.png"></p>
-<p>​    通过这个图我们可以看到，多个存储引擎其实共用一个Server层</p>
-<p>​    而存储引擎层负责数据的存储和提取。其架构模式是插件式的，支持 InnoDB、MyISAM、Memory 等多个存储引擎。现在最常用的存储引擎是 InnoDB，它从 MySQL 5.5.5 版本开始成为了默认存储引擎。</p>
-<h4 id="连接器"><a href="#连接器" class="headerlink" title="连接器"></a>连接器</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -h$ip -P$port -u$user -p</span><br></pre></td></tr></table></figure>
-
-<p>​    输完命令之后，你就需要在交互对话里面输入密码。虽然密码也可以直接跟在 -p 后面写在命令行中，但这样可能会导致你的密码泄露。如果你连的是生产服务器，强烈建议你不要这么做。</p>
-<p>​    连接完成后，如果你没有后续的动作，这个连接就处于空闲状态，你可以在 show processlist 命令中看到它。文本中这个图是 show processlist 的结果，其中的 Command 列显示为“Sleep”的这一行，就表示现在系统里面有一个空闲连接。</p>
-<p><img src="https://i.loli.net/2020/04/08/3wjWRkSOHunbxDC.png" alt="批注2 2020-04-08 152516.png"></p>
-<p>​    客户端如果太长时间没动静，连接器就会自动将它断开。这个时间是由参数 wait_timeout 控制的，默认值是 8 小时。</p>
-<h4 id="查询缓存"><a href="#查询缓存" class="headerlink" title="查询缓存"></a>查询缓存</h4><p>​    执行查询操作之后，MySQL会在查询缓存中对语句进行查找，缓存中一般都是以K-V键值对的形式存放的。key 是查询的语句，value 是查询的结果。如果你的查询能够直接在这个缓存中找到 key，那么这个 value 就会被直接返回给客户端。</p>
-<p>​    这样看上去可以节省大量的操作，<strong>但是大多数情况下会建议你不要使用查询缓存，为什么呢？因为查询缓存往往弊大于利。</strong></p>
-<p>​    查询缓存的失效非常频繁，只要有对一个表的更新，这个表上所有的查询缓存都会被清空。因此很可能你费劲地把结果存起来，还没使用呢，就被一个更新全清空了。对于更新压力大的数据库来说，查询缓存的命中率会非常低。除非你的业务就是有一张静态表，很长时间才会更新一次。比如，一个系统配置表，那这张表上的查询才适合使用查询缓存。</p>
-<p>​    不过好在MySQL 8.0 版本直接将查询缓存的整块功能删掉了，也就是说 8.0 开始彻底没有这个功能了。</p>
-<h4 id="分析器"><a href="#分析器" class="headerlink" title="分析器"></a>分析器</h4><p>​    如果没有命中查询缓存，就要开始真正执行语句了。</p>
-<p>​    首先，MySQL 需要知道你要做什么，因此需要对 SQL 语句做解析。</p>
-<p>​    分析器先会做“词法分析”。你输入的是由多个字符串和空格组成的一条 SQL 语句，MySQL 需要识别出里面的字符串分别是什么，代表什么。MySQL 从你输入的”select”这个关键字识别出来，这是一个查询语句。它也要把字符串“T”识别成“表名 T”，把字符串“ID”识别成“列 ID”。</p>
-<p>​    做完了这些识别以后，就要做“语法分析”。根据词法分析的结果，语法分析器会根据语法规则，判断你输入的这个 SQL 语句是否满足 MySQL 语法。</p>
-<h4 id="优化器"><a href="#优化器" class="headerlink" title="优化器"></a>优化器</h4><p>​    经过了分析器，MySQL 就知道你要做什么了。在开始执行之前，还要先经过优化器的处理。</p>
-<p>​    优化器是在表里面有多个索引的时候，决定使用哪个索引；或者在一个语句有多表关联（join）的时候，决定各个表的连接顺序。比如你执行下面这样的语句，这个语句是执行两个表的 join：</p>
-<h4 id="执行器"><a href="#执行器" class="headerlink" title="执行器"></a>执行器</h4><p>​    MySQL 通过分析器知道了你要做什么，通过优化器知道了该怎么做，于是就进入了执行器阶段，开始执行语句。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from T where ID=10;</span><br><span class="line"></span><br><span class="line">ERROR 1142 (42000): <span class="keyword">SELECT</span> command denied <span class="keyword">to</span> <span class="keyword">user</span> <span class="string">'b'</span>@<span class="string">'localhost'</span> <span class="keyword">for</span> <span class="keyword">table</span> <span class="string">'T'</span></span><br></pre></td></tr></table></figure>
-
-<p>​    如果有权限，就打开表继续执行。打开表的时候，执行器就会根据表的引擎定义，去使用这个引擎提供的接口。</p>
-<p>​    比如我们这个例子中的表 T 中，ID 字段没有索引，那么执行器的执行流程是这样的：</p>
-<ol>
-<li><p>调用 InnoDB 引擎接口取这个表的第一行，判断 ID 值是不是 10，如果不是则跳过，如果是则将这行存在结果集中；</p>
-</li>
-<li><p>调用引擎接口取“下一行”，重复相同的判断逻辑，直到取到这个表的最后一行。</p>
-</li>
-<li><p>执行器将上述遍历过程中所有满足条件的行组成的记录集作为结果集返回给客户端。</p>
-<p>至此，这个语句就执行完成了。</p>
-</li>
-</ol>
-<h3 id="事务隔离：为什么你改了我还看不见？"><a href="#事务隔离：为什么你改了我还看不见？" class="headerlink" title="事务隔离：为什么你改了我还看不见？"></a>事务隔离：为什么你改了我还看不见？</h3><p>​    提到事务，你肯定会想到 ACID（Atomicity、Consistency、Isolation、Durability，即原子性、一致性、隔离性、持久性），今天我们就来说说其中 I，也就是“隔离性”。</p>
-<h4 id="隔离性与隔离级别"><a href="#隔离性与隔离级别" class="headerlink" title="隔离性与隔离级别"></a>隔离性与隔离级别</h4><p>​    当数据库上有多个事务同时执行的时候，就可能出现脏读（dirty read）、不可重复读（non-repeatable read）、幻读（phantom read）的问题，为了解决这些问题，就有了“隔离级别”的概念。</p>
-<p>​    在谈隔离级别之前，你首先要知道，你隔离得越严实，效率就会越低。因此很多时候，我们都要在二者之间寻找一个平衡点。SQL 标准的事务隔离级别包括：读未提交（read uncommitted）、读提交（read committed）、可重复读（repeatable read）和串行化（serializable ）。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">MYSQL</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/04/08/%E5%85%B3%E4%BA%8EMySql-DAY1/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-多线程条件下HashMap的探究" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/04/06/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%9D%A1%E4%BB%B6%E4%B8%8BHashMap%E7%9A%84%E6%8E%A2%E7%A9%B6/">多线程条件下HashMap的探究</a>
-    </h1>
-  
-
-        
-        <a href="/2020/04/06/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%9D%A1%E4%BB%B6%E4%B8%8BHashMap%E7%9A%84%E6%8E%A2%E7%A9%B6/" class="archive-article-date">
-  	<time datetime="2020-04-06T07:58:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="多线程条件下map选择"><a href="#多线程条件下map选择" class="headerlink" title="多线程条件下map选择"></a>多线程条件下map选择</h3><p>HashMap :     没有加锁，线程非安全的。</p>
-<p>HashTable： 对方法加锁，但性能不好</p>
-<h4 id="ConcurrentHashMap"><a href="#ConcurrentHashMap" class="headerlink" title="ConcurrentHashMap"></a>ConcurrentHashMap</h4>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">多线程</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/04/06/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%9D%A1%E4%BB%B6%E4%B8%8BHashMap%E7%9A%84%E6%8E%A2%E7%A9%B6/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-多线程学习DAY10" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/04/03/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0DAY10/">多线程学习DAY10</a>
-    </h1>
-  
-
-        
-        <a href="/2020/04/03/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0DAY10/" class="archive-article-date">
-  	<time datetime="2020-04-03T11:58:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-03</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="利用CAS实现锁"><a href="#利用CAS实现锁" class="headerlink" title="利用CAS实现锁"></a>利用CAS实现锁</h3><p>通常情况下，用synchronized加锁会使其他线程阻塞。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> day10;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.TimeUnit;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AtomicTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    doSomeThing();</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;,String.valueOf(i)).start();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">doSomeThing</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        <span class="keyword">synchronized</span> (AtomicTest<span class="class">.<span class="keyword">class</span>) </span>&#123;</span><br><span class="line">            System.out.println(Thread.currentThread().getName() + <span class="string">"get the lock.."</span>);</span><br><span class="line">            TimeUnit.SECONDS.sleep(<span class="number">20</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>因此，用原子类写一个锁：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> day10;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.atomic.AtomicInteger;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CompareAndSetLock</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> AtomicInteger integer = <span class="keyword">new</span> AtomicInteger(<span class="number">0</span>);</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">tryLock</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="keyword">boolean</span> success = integer.compareAndSet(<span class="number">0</span>,<span class="number">1</span>);</span><br><span class="line">        <span class="keyword">if</span> (!success) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> Exception(<span class="string">"fail to get lock!"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">unLock</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="number">0</span> == integer.get()) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        integer.compareAndSet(<span class="number">1</span>,<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>修改一下之前的代码。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> day10;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.TimeUnit;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AtomicTest</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> CompareAndSetLock LOCK = <span class="keyword">new</span> CompareAndSetLock();</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    doSomeThing();</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;,String.valueOf(i)).start();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">doSomeThing</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            LOCK.tryLock();</span><br><span class="line">            System.out.println(Thread.currentThread().getName() + <span class="string">"get the lock.."</span>);</span><br><span class="line">            TimeUnit.SECONDS.sleep(<span class="number">20</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            LOCK.unLock();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>通过这样的显式锁，就可以让其他拿不到锁的线程不再阻塞，直接退出。 </p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">多线程</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/04/03/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0DAY10/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
     </nav>
   
 
@@ -1403,6 +1424,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">OSS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Session</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">JDBC</a>
               </li>
             
             <div class="clearfix"></div>

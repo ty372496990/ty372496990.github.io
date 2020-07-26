@@ -152,6 +152,278 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-多线程学习DAY6" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/03/29/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0DAY6/">多线程学习DAY6</a>
+    </h1>
+  
+
+        
+        <a href="/2020/03/29/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0DAY6/" class="archive-article-date">
+  	<time datetime="2020-03-29T12:09:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-29</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="对于单例模式的一些探究"><a href="#对于单例模式的一些探究" class="headerlink" title="对于单例模式的一些探究"></a>对于单例模式的一些探究</h3><h4 id="饿汉式："><a href="#饿汉式：" class="headerlink" title="饿汉式："></a>饿汉式：</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">singletonTest</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> singletonTest  SINGLETON_TEST= <span class="keyword">new</span> singletonTest();</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">singletonTest</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="comment">//empty</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> singletonTest <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> SINGLETON_TEST;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>但是占用内存，虽然没有线程安全问题。</p>
+<p>无法懒加载</p>
+<h4 id="懒汉式："><a href="#懒汉式：" class="headerlink" title="懒汉式："></a>懒汉式：</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> singletonTest instance;</span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="title">singletonTest</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">//empty</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> singletonTest <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">null</span> == instance)</span><br><span class="line">        instance = <span class="keyword">new</span> singletonTest();</span><br><span class="line">    <span class="keyword">return</span> instance;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在多线程环境下会出现重复创建对象的情况</p>
+<h4 id="懒汉式（加锁）"><a href="#懒汉式（加锁）" class="headerlink" title="懒汉式（加锁）"></a>懒汉式（加锁）</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">singletonTest</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> singletonTest instance;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">singletonTest</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//empty</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> singletonTest <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">null</span> == instance)</span><br><span class="line">            instance = <span class="keyword">new</span> singletonTest();</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>但是会对性能产生影响。</p>
+<h4 id="懒汉式（DoubleCheck）"><a href="#懒汉式（DoubleCheck）" class="headerlink" title="懒汉式（DoubleCheck）"></a>懒汉式（DoubleCheck）</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">singletonTest</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> singletonTest instance;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">singletonTest</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//empty</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> singletonTest <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> == instance) &#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (singletonTest<span class="class">.<span class="keyword">class</span>) </span>&#123;</span><br><span class="line">                <span class="keyword">if</span> (<span class="keyword">null</span> == instance)</span><br><span class="line">                    instance = <span class="keyword">new</span> singletonTest();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>但是会出现指令重排而导致的问题，可以用volatile来禁止指令重排和保证可见性。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">singletonTest</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">volatile</span> singletonTest instance;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">singletonTest</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//empty</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> singletonTest <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> == instance) &#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (singletonTest<span class="class">.<span class="keyword">class</span>) </span>&#123;</span><br><span class="line">                <span class="keyword">if</span> (<span class="keyword">null</span> == instance)</span><br><span class="line">                    instance = <span class="keyword">new</span> singletonTest();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="静态内部类（推荐）"><a href="#静态内部类（推荐）" class="headerlink" title="静态内部类（推荐）"></a>静态内部类（推荐）</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">singletonTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">singletonTest</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">singleHolder</span></span>&#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> singletonTest instance = <span class="keyword">new</span> singletonTest();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> singletonTest <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> singleHolder.instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="枚举类实现（推荐）"><a href="#枚举类实现（推荐）" class="headerlink" title="枚举类实现（推荐）"></a>枚举类实现（推荐）</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">singletonTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">singletonTest</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">enum</span> Singleton &#123;</span><br><span class="line">        SINGLETON;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> singletonTest singletonTest;</span><br><span class="line"></span><br><span class="line">        Singleton()&#123;</span><br><span class="line">            singletonTest = <span class="keyword">new</span> singletonTest();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> singletonTest <span class="title">getSingletonTest</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> singletonTest;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> singletonTest <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> Singleton.SINGLETON.getSingletonTest();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">多线程</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/03/29/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0DAY6/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-多线程学习DAY5" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/03/28/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0DAY5/">多线程学习DAY5</a>
+    </h1>
+  
+
+        
+        <a href="/2020/03/28/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0DAY5/" class="archive-article-date">
+  	<time datetime="2020-03-28T12:16:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-28</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="关于异常捕获"><a href="#关于异常捕获" class="headerlink" title="关于异常捕获"></a>关于异常捕获</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> day5;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CatchThreadException</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> A = <span class="number">10</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> B = <span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            System.out.println(A/B);</span><br><span class="line">        &#125;).start();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>很明显这个程序会抛出异常</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Exception in thread <span class="string">"Thread-0"</span> java.lang.ArithmeticException: / by zero</span><br><span class="line">	at day5.CatchThreadException.lambda$main$<span class="number">0</span>(CatchThreadException.java:<span class="number">8</span>)</span><br><span class="line">	at java.lang.Thread.run(Thread.java:<span class="number">748</span>)</span><br><span class="line"></span><br><span class="line">Process finished with exit code <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<p>正常情况下是无法抛出异常并进行处理的</p>
+<p>但是可以使用setUncaughtExceptionHandler对一场进行处理</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> day5;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CatchThreadException</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> A = <span class="number">10</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> B = <span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Thread thread = <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            System.out.println(A / B);</span><br><span class="line">        &#125;);</span><br><span class="line">        thread.setUncaughtExceptionHandler((thread1 , throwable) -&gt; &#123;</span><br><span class="line">            System.out.println(thread1);</span><br><span class="line">            System.out.println(throwable);</span><br><span class="line">        &#125;);</span><br><span class="line">        thread.start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Thread[Thread-<span class="number">0</span>,<span class="number">5</span>,main]</span><br><span class="line">java.lang.ArithmeticException: / by zero</span><br></pre></td></tr></table></figure>
+
+<p>这样异常就可以被打印出来了。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">多线程</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/03/28/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0DAY5/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-多线程学习DAY4" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/03/27/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0DAY4/">多线程学习DAY4</a>
+    </h1>
+  
+
+        
+        <a href="/2020/03/27/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0DAY4/" class="archive-article-date">
+  	<time datetime="2020-03-27T10:42:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-27</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="线程间通讯"><a href="#线程间通讯" class="headerlink" title="线程间通讯"></a>线程间通讯</h3><p>再单个生产者和单个消费者的模型下，昨天的程序会正常执行。</p>
+<p>但是在多生产者和多消费者模型下，则会出现问题：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">Stream.of(<span class="string">"p1"</span>,<span class="string">"p2"</span>).forEach(n -&gt;&#123;</span><br><span class="line">    <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">while</span> (<span class="keyword">true</span>)</span><br><span class="line">                produceAndConsumeV1.produce();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;).start();</span><br><span class="line">&#125;);</span><br><span class="line">Stream.of(<span class="string">"c1"</span>,<span class="string">"c2"</span>).forEach(n -&gt; &#123;</span><br><span class="line">    <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">while</span> (<span class="keyword">true</span>)</span><br><span class="line">                produceAndConsumeV1.consume();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;).start();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">P --&gt; <span class="number">1</span></span><br><span class="line">C --&gt; <span class="number">1</span></span><br><span class="line">P --&gt; <span class="number">1</span></span><br><span class="line">C --&gt; <span class="number">1</span></span><br><span class="line">P --&gt; <span class="number">1</span></span><br><span class="line"></span><br><span class="line">Process finished with exit code -<span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<p>可能发生了死锁。。 用jstack查看一下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br></pre></td><td class="code"><pre><span class="line">Microsoft Windows [版本 <span class="number">10.0</span><span class="number">.18362</span><span class="number">.720</span>]</span><br><span class="line">                                                                                             D:\redis_idea\test1&gt;jps</span><br><span class="line"><span class="number">12560</span> RemoteMavenServer36</span><br><span class="line"><span class="number">16192</span> Jps</span><br><span class="line"><span class="number">17824</span></span><br><span class="line"><span class="number">4928</span> ProduceAndConsumeV1</span><br><span class="line"><span class="number">19060</span> KotlinCompileDaemon</span><br><span class="line"><span class="number">19336</span> Launcher</span><br><span class="line"></span><br><span class="line">D:\redis_idea\test1&gt;jstack <span class="number">4928</span></span><br><span class="line"><span class="number">2020</span>-<span class="number">03</span>-<span class="number">27</span> <span class="number">19</span>:<span class="number">07</span>:<span class="number">30</span></span><br><span class="line"><span class="function">Full thread dump Java <span class="title">HotSpot</span><span class="params">(TM)</span> 64-Bit Server <span class="title">VM</span> <span class="params">(<span class="number">25.231</span>-b11 mixed mode)</span>:</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">"DestroyJavaVM" #16 prio</span>=<span class="number">5</span> os_prio=<span class="number">0</span> tid=<span class="number">0x0000000002e04000</span> nid=<span class="number">0x2258</span> waiting on condition [<span class="number">0x0000000000000000</span>]</span><br><span class="line">   java.lang.Thread.State: RUNNABLE</span><br><span class="line"></span><br><span class="line">"Thread-3" #15 prio=5 os_prio=0 tid=0x000000001fed1800 nid=0x25d0 in Object.wait() [0x00000000209ae000]</span><br><span class="line">   java.lang.Thread.State: WAITING (on object monitor)</span><br><span class="line">        at java.lang.Object.wait(Native Method)</span><br><span class="line">        - waiting on &lt;<span class="number">0x000000076c084c50</span>&gt; (a java.lang.Object)</span><br><span class="line">        at java.lang.Object.wait(Object.java:<span class="number">502</span>)</span><br><span class="line">        at day3.ProduceAndConsumeV1.consume(ProduceAndConsumeV1.java:<span class="number">55</span>)</span><br><span class="line">        - locked &lt;<span class="number">0x000000076c084c50</span>&gt; (a java.lang.Object)</span><br><span class="line">        at day3.ProduceAndConsumeV1.lambda$<span class="keyword">null</span>$<span class="number">2</span>(ProduceAndConsumeV1.java:<span class="number">26</span>)</span><br><span class="line">        at day3.ProduceAndConsumeV1$$Lambda$<span class="number">4</span>/<span class="number">1313922862</span>.run(Unknown Source)</span><br><span class="line">        at java.lang.Thread.run(Thread.java:<span class="number">748</span>)</span><br><span class="line"></span><br><span class="line">"Thread-2" #14 prio=5 os_prio=0 tid=0x000000001fece800 nid=0x23d0 in Object.wait() [0x00000000208af000]</span><br><span class="line">   java.lang.Thread.State: WAITING (on object monitor)</span><br><span class="line">        at java.lang.Object.wait(Native Method)</span><br><span class="line">        - waiting on &lt;<span class="number">0x000000076c084c50</span>&gt; (a java.lang.Object)</span><br><span class="line">        at java.lang.Object.wait(Object.java:<span class="number">502</span>)</span><br><span class="line">        at day3.ProduceAndConsumeV1.consume(ProduceAndConsumeV1.java:<span class="number">55</span>)</span><br><span class="line">        - locked &lt;<span class="number">0x000000076c084c50</span>&gt; (a java.lang.Object)</span><br><span class="line">        at day3.ProduceAndConsumeV1.lambda$<span class="keyword">null</span>$<span class="number">2</span>(ProduceAndConsumeV1.java:<span class="number">26</span>)</span><br><span class="line">        at day3.ProduceAndConsumeV1$$Lambda$<span class="number">4</span>/<span class="number">1313922862</span>.run(Unknown Source)</span><br><span class="line">        at java.lang.Thread.run(Thread.java:<span class="number">748</span>)</span><br><span class="line"></span><br><span class="line">"Thread-1" #13 prio=5 os_prio=0 tid=0x000000001fecb000 nid=0x3cbc in Object.wait() [0x00000000207af000]</span><br><span class="line">   java.lang.Thread.State: WAITING (on object monitor)</span><br><span class="line">        at java.lang.Object.wait(Native Method)</span><br><span class="line">        - waiting on &lt;<span class="number">0x000000076c084c50</span>&gt; (a java.lang.Object)</span><br><span class="line">        at java.lang.Object.wait(Object.java:<span class="number">502</span>)</span><br><span class="line">        at day3.ProduceAndConsumeV1.produce(ProduceAndConsumeV1.java:<span class="number">37</span>)</span><br><span class="line">        - locked &lt;<span class="number">0x000000076c084c50</span>&gt; (a java.lang.Object)</span><br><span class="line">        at day3.ProduceAndConsumeV1.lambda$<span class="keyword">null</span>$<span class="number">0</span>(ProduceAndConsumeV1.java:<span class="number">16</span>)</span><br><span class="line">        at day3.ProduceAndConsumeV1$$Lambda$<span class="number">2</span>/<span class="number">189568618</span>.run(Unknown Source)</span><br><span class="line">        at java.lang.Thread.run(Thread.java:<span class="number">748</span>)</span><br><span class="line"></span><br><span class="line">"Thread-0" #12 prio=5 os_prio=0 tid=0x000000001feca800 nid=0x22e0 in Object.wait() [0x00000000206ae000]</span><br><span class="line">   java.lang.Thread.State: WAITING (on object monitor)</span><br><span class="line">        at java.lang.Object.wait(Native Method)</span><br><span class="line">        - waiting on &lt;<span class="number">0x000000076c084c50</span>&gt; (a java.lang.Object)</span><br><span class="line">        at java.lang.Object.wait(Object.java:<span class="number">502</span>)</span><br><span class="line">        at day3.ProduceAndConsumeV1.produce(ProduceAndConsumeV1.java:<span class="number">37</span>)</span><br><span class="line">        - locked &lt;<span class="number">0x000000076c084c50</span>&gt; (a java.lang.Object)</span><br><span class="line">        at day3.ProduceAndConsumeV1.lambda$<span class="keyword">null</span>$<span class="number">0</span>(ProduceAndConsumeV1.java:<span class="number">16</span>)</span><br><span class="line">        at day3.ProduceAndConsumeV1$$Lambda$<span class="number">2</span>/<span class="number">189568618</span>.run(Unknown Source)</span><br><span class="line">        at java.lang.Thread.run(Thread.java:<span class="number">748</span>)</span><br><span class="line"></span><br><span class="line">"Service Thread" #11 daemon prio=9 os_prio=0 tid=0x000000001e318000 nid=0x3d80 runnable [0x0000000000000000]</span><br><span class="line">   java.lang.Thread.State: RUNNABLE</span><br><span class="line"></span><br><span class="line">"C1 CompilerThread3" #10 daemon prio=9 os_prio=2 tid=0x000000001e261800 nid=0x43f0 waiting on condition [0x0000000000000000]</span><br><span class="line">   java.lang.Thread.State: RUNNABLE</span><br><span class="line"></span><br><span class="line">"C2 CompilerThread2" #9 daemon prio=9 os_prio=2 tid=0x000000001e256800 nid=0x2534 waiting on condition [0x0000000000000000]</span><br><span class="line">   java.lang.Thread.State: RUNNABLE</span><br><span class="line"></span><br><span class="line">"C2 CompilerThread1" #8 daemon prio=9 os_prio=2 tid=0x000000001e23b800 nid=0x4674 waiting on condition [0x0000000000000000]</span><br><span class="line">   java.lang.Thread.State: RUNNABLE</span><br><span class="line"></span><br><span class="line">"C2 CompilerThread0" #7 daemon prio=9 os_prio=2 tid=0x000000001e23b000 nid=0x49bc waiting on condition [0x0000000000000000]</span><br><span class="line">   java.lang.Thread.State: RUNNABLE</span><br><span class="line"></span><br><span class="line">"Monitor Ctrl-Break" #6 daemon prio=5 os_prio=0 tid=0x000000001e239800 nid=0x3304 runnable [0x000000001f7ae000]</span><br><span class="line">   java.lang.Thread.State: RUNNABLE</span><br><span class="line">        at java.net.SocketInputStream.socketRead0(Native Method)</span><br><span class="line">        at java.net.SocketInputStream.socketRead(SocketInputStream.java:<span class="number">116</span>)</span><br><span class="line">        at java.net.SocketInputStream.read(SocketInputStream.java:<span class="number">171</span>)</span><br><span class="line">        at java.net.SocketInputStream.read(SocketInputStream.java:<span class="number">141</span>)</span><br><span class="line">        at sun.nio.cs.StreamDecoder.readBytes(StreamDecoder.java:<span class="number">284</span>)</span><br><span class="line">        at sun.nio.cs.StreamDecoder.implRead(StreamDecoder.java:<span class="number">326</span>)</span><br><span class="line">        at sun.nio.cs.StreamDecoder.read(StreamDecoder.java:<span class="number">178</span>)</span><br><span class="line">        - locked &lt;<span class="number">0x000000076c1ca398</span>&gt; (a java.io.InputStreamReader)</span><br><span class="line">        at java.io.InputStreamReader.read(InputStreamReader.java:<span class="number">184</span>)</span><br><span class="line">        at java.io.BufferedReader.fill(BufferedReader.java:<span class="number">161</span>)</span><br><span class="line">        at java.io.BufferedReader.readLine(BufferedReader.java:<span class="number">324</span>)</span><br><span class="line">        - locked &lt;<span class="number">0x000000076c1ca398</span>&gt; (a java.io.InputStreamReader)</span><br><span class="line">        at java.io.BufferedReader.readLine(BufferedReader.java:<span class="number">389</span>)</span><br><span class="line">        at com.intellij.rt.execution.application.AppMainV2$<span class="number">1</span>.run(AppMainV2.java:<span class="number">64</span>)</span><br><span class="line"></span><br><span class="line">"Attach Listener" #5 daemon prio=5 os_prio=2 tid=0x000000001e0ef800 nid=0x12f8 waiting on condition [0x0000000000000000]</span><br><span class="line">   java.lang.Thread.State: RUNNABLE</span><br><span class="line"></span><br><span class="line">"Signal Dispatcher" #4 daemon prio=9 os_prio=2 tid=0x000000001e15a800 nid=0x2c68 runnable [0x0000000000000000]</span><br><span class="line">   java.lang.Thread.State: RUNNABLE</span><br><span class="line"></span><br><span class="line">"Finalizer" #3 daemon prio=8 os_prio=1 tid=0x0000000002efb800 nid=0x482c in Object.wait() [0x000000001f44f000]</span><br><span class="line">   java.lang.Thread.State: WAITING (on object monitor)</span><br><span class="line">        at java.lang.Object.wait(Native Method)</span><br><span class="line">        - waiting on &lt;<span class="number">0x000000076bf08ed8</span>&gt; (a java.lang.ref.ReferenceQueue$Lock)</span><br><span class="line">        at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:<span class="number">144</span>)</span><br><span class="line">        - locked &lt;<span class="number">0x000000076bf08ed8</span>&gt; (a java.lang.ref.ReferenceQueue$Lock)</span><br><span class="line">        at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:<span class="number">165</span>)</span><br><span class="line">        at java.lang.ref.Finalizer$FinalizerThread.run(Finalizer.java:<span class="number">216</span>)</span><br><span class="line"></span><br><span class="line">"Reference Handler" #2 daemon prio=10 os_prio=2 tid=0x000000001e0e3000 nid=0x2020 in Object.wait() [0x000000001f34f000]</span><br><span class="line">   java.lang.Thread.State: WAITING (on object monitor)</span><br><span class="line">        at java.lang.Object.wait(Native Method)</span><br><span class="line">        - waiting on &lt;<span class="number">0x000000076bf06c00</span>&gt; (a java.lang.ref.Reference$Lock)</span><br><span class="line">        at java.lang.Object.wait(Object.java:<span class="number">502</span>)</span><br><span class="line">        at java.lang.ref.Reference.tryHandlePending(Reference.java:<span class="number">191</span>)</span><br><span class="line">        - locked &lt;<span class="number">0x000000076bf06c00</span>&gt; (a java.lang.ref.Reference$Lock)</span><br><span class="line">        at java.lang.ref.Reference$ReferenceHandler.run(Reference.java:<span class="number">153</span>)</span><br><span class="line"></span><br><span class="line"><span class="string">"VM Thread"</span> os_prio=<span class="number">2</span> tid=<span class="number">0x000000001c9f6800</span> nid=<span class="number">0x43a0</span> runnable</span><br><span class="line"></span><br><span class="line"><span class="string">"GC task thread#0 (ParallelGC)"</span> os_prio=<span class="number">0</span> tid=<span class="number">0x0000000002e19000</span> nid=<span class="number">0x1b18</span> runnable</span><br><span class="line"></span><br><span class="line"><span class="string">"GC task thread#1 (ParallelGC)"</span> os_prio=<span class="number">0</span> tid=<span class="number">0x0000000002e1a800</span> nid=<span class="number">0x2b24</span> runnable</span><br><span class="line"></span><br><span class="line"><span class="string">"GC task thread#2 (ParallelGC)"</span> os_prio=<span class="number">0</span> tid=<span class="number">0x0000000002e1c800</span> nid=<span class="number">0xa80</span> runnable</span><br><span class="line"></span><br><span class="line"><span class="string">"GC task thread#3 (ParallelGC)"</span> os_prio=<span class="number">0</span> tid=<span class="number">0x0000000002e1e000</span> nid=<span class="number">0x728</span> runnable</span><br><span class="line"></span><br><span class="line"><span class="string">"GC task thread#4 (ParallelGC)"</span> os_prio=<span class="number">0</span> tid=<span class="number">0x0000000002e21000</span> nid=<span class="number">0x4fc8</span> runnable</span><br><span class="line"></span><br><span class="line"><span class="string">"GC task thread#5 (ParallelGC)"</span> os_prio=<span class="number">0</span> tid=<span class="number">0x0000000002e22000</span> nid=<span class="number">0x1d94</span> runnable</span><br><span class="line"></span><br><span class="line"><span class="string">"GC task thread#6 (ParallelGC)"</span> os_prio=<span class="number">0</span> tid=<span class="number">0x0000000002e25800</span> nid=<span class="number">0x3e68</span> runnable</span><br><span class="line"></span><br><span class="line"><span class="string">"GC task thread#7 (ParallelGC)"</span> os_prio=<span class="number">0</span> tid=<span class="number">0x0000000002e26800</span> nid=<span class="number">0x2ef0</span> runnable</span><br><span class="line"></span><br><span class="line"><span class="string">"GC task thread#8 (ParallelGC)"</span> os_prio=<span class="number">0</span> tid=<span class="number">0x0000000002e27800</span> nid=<span class="number">0x13c4</span> runnable</span><br><span class="line"></span><br><span class="line"><span class="string">"GC task thread#9 (ParallelGC)"</span> os_prio=<span class="number">0</span> tid=<span class="number">0x0000000002e29000</span> nid=<span class="number">0x2680</span> runnable</span><br><span class="line"></span><br><span class="line"><span class="string">"VM Periodic Task Thread"</span> os_prio=<span class="number">2</span> tid=<span class="number">0x000000001e23c800</span> nid=<span class="number">0x1348</span> waiting on condition</span><br><span class="line"></span><br><span class="line">JNI global references: <span class="number">320</span></span><br></pre></td></tr></table></figure>
+
+<p>然而并没有</p>
+<p>notify并不能实现精确唤醒。</p>
+<p>结果是生产者线程之前相互唤醒，最终都进入了等待池。</p>
+<p>那么可以用notifyall来唤醒所有等待线程</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">produce</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">    <span class="keyword">synchronized</span> (OBJECT) &#123;</span><br><span class="line">        <span class="keyword">while</span> (isProduce) &#123;</span><br><span class="line">            OBJECT.wait();</span><br><span class="line">        &#125;</span><br><span class="line">            i++;</span><br><span class="line">            System.out.println(<span class="string">"P --&gt; "</span> + i);</span><br><span class="line">            OBJECT.notifyAll();</span><br><span class="line">            isProduce = <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">consume</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">    <span class="keyword">synchronized</span> (OBJECT) &#123;</span><br><span class="line">        <span class="keyword">while</span> (!isProduce) &#123;</span><br><span class="line">            OBJECT.wait();</span><br><span class="line">        &#125;</span><br><span class="line">            System.out.println(<span class="string">"C --&gt; "</span> + i);</span><br><span class="line">            i -- ;</span><br><span class="line">            OBJECT.notifyAll();</span><br><span class="line">            isProduce = <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>程序恢复正常。。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">C --&gt; <span class="number">1</span></span><br><span class="line">P --&gt; <span class="number">1</span></span><br><span class="line">C --&gt; <span class="number">1</span></span><br><span class="line">P --&gt; <span class="number">1</span></span><br><span class="line">C --&gt; <span class="number">1</span></span><br><span class="line">P --&gt; <span class="number">1</span></span><br><span class="line">C --&gt; <span class="number">1</span></span><br><span class="line">P --&gt; <span class="number">1</span></span><br><span class="line">C --&gt; <span class="number">1</span></span><br><span class="line">P --&gt; <span class="number">1</span></span><br><span class="line">C --&gt; <span class="number">1</span></span><br><span class="line">P --&gt; <span class="number">1</span></span><br><span class="line">C --&gt; <span class="number">1</span></span><br><span class="line">P --&gt; <span class="number">1</span></span><br><span class="line">C --&gt; <span class="number">1</span></span><br><span class="line">P --&gt; <span class="number">1</span></span><br><span class="line">C --&gt; <span class="number">1</span></span><br><span class="line">P --&gt; <span class="number">1</span></span><br><span class="line">C --&gt; <span class="number">1</span></span><br><span class="line">P --&gt; <span class="number">1</span></span><br><span class="line">C --&gt; <span class="number">1</span></span><br><span class="line">P --&gt; <span class="number">1</span></span><br><span class="line">C --&gt; <span class="number">1</span></span><br><span class="line">P --&gt; <span class="number">1</span></span><br><span class="line">C --&gt; <span class="number">1</span></span><br><span class="line">P --&gt; <span class="number">1</span></span><br><span class="line">C --&gt; <span class="number">1</span></span><br><span class="line">P --&gt; <span class="number">1</span></span><br><span class="line">C --&gt; <span class="number">1</span></span><br><span class="line">P --&gt; <span class="number">1</span></span><br><span class="line">C --&gt; <span class="number">1</span></span><br><span class="line">P --&gt; <span class="number">1</span></span><br><span class="line">C --&gt; <span class="number">1</span></span><br><span class="line">P --&gt; <span class="number">1</span></span><br><span class="line">C --&gt; <span class="number">1</span></span><br><span class="line">P --&gt; <span class="number">1</span></span><br><span class="line">C --&gt; <span class="number">1</span></span><br><span class="line">P --&gt; <span class="number">1</span></span><br><span class="line">C --&gt; <span class="number">1</span></span><br><span class="line">P --&gt; <span class="number">1</span></span><br><span class="line">C --&gt; <span class="number">1</span></span><br><span class="line">P --&gt; <span class="number">1</span></span><br><span class="line">C --&gt; <span class="number">1</span></span><br><span class="line">P --&gt; <span class="number">1</span></span><br><span class="line">C --&gt; <span class="number">1</span></span><br><span class="line">P --&gt; <span class="number">1</span></span><br><span class="line">C --&gt; <span class="number">1</span></span><br><span class="line">P --&gt; <span class="number">1</span></span><br><span class="line">C --&gt; <span class="number">1</span></span><br><span class="line">P --&gt; <span class="number">1</span></span><br><span class="line">C --&gt; <span class="number">1</span></span><br><span class="line">P --&gt; <span class="number">1</span></span><br><span class="line">C --&gt; <span class="number">1</span></span><br><span class="line">P --&gt; <span class="number">1</span></span><br><span class="line">C --&gt; <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="sleep-和wait-的区别"><a href="#sleep-和wait-的区别" class="headerlink" title="sleep()和wait()的区别"></a>sleep()和wait()的区别</h4><ol>
+<li>sleep()是Thread类的方法，wait是Object类的方法。</li>
+<li>sleep不会释放对象锁，wait会释放对象锁，并进入等待队列。</li>
+<li>sleep不依赖于锁，wait需要</li>
+<li>sleep不需要手动唤醒，wait需要唤醒。</li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">多线程</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/03/27/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0DAY4/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-多线程学习DAY3" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -853,282 +1125,9 @@
 
 
   
-    <article id="post-在Mybtis-Plus中自定义sql中出现的问题" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/02/14/%E5%9C%A8Mybtis-Plus%E4%B8%AD%E8%87%AA%E5%AE%9A%E4%B9%89sql%E4%B8%AD%E5%87%BA%E7%8E%B0%E7%9A%84%E9%97%AE%E9%A2%98/">在Mybtis-Plus中自定义sql中出现的问题</a>
-    </h1>
-  
-
-        
-        <a href="/2020/02/14/%E5%9C%A8Mybtis-Plus%E4%B8%AD%E8%87%AA%E5%AE%9A%E4%B9%89sql%E4%B8%AD%E5%87%BA%E7%8E%B0%E7%9A%84%E9%97%AE%E9%A2%98/" class="archive-article-date">
-  	<time datetime="2020-02-14T02:13:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-14</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AbstractHandlerExceptionResolver.java:<span class="number">194</span> |org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver |Resolved exception caused by handler execution: org.apache.ibatis.binding.BindingException: <span class="function">Invalid bound <span class="title">statement</span> <span class="params">(not found)</span>: com.guli.edu.mapper.CourseMapper.getCoursePublishVoById</span></span><br></pre></td></tr></table></figure>
-
-
-
-<p>原因是缺少配置</p>
-<p>在pom.xml中添加以下配置</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 项目打包时会将java目录中的*.xml文件也进行打包 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">resources</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">resource</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">directory</span>&gt;</span>src/main/java<span class="tag">&lt;/<span class="name">directory</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">includes</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">include</span>&gt;</span>**/*.xml<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">includes</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">filtering</span>&gt;</span>false<span class="tag">&lt;/<span class="name">filtering</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">resource</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">resources</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<p>在properties中进行以下配置：</p>
-<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#配置mapper xml文件的路径</span></span><br><span class="line"><span class="meta">mybatis-plus.mapper-locations</span>=<span class="string">classpath:com/online/edu/school_eduservice/mapper/xml/*.xml</span></span><br></pre></td></tr></table></figure>
-
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">异常</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/02/14/%E5%9C%A8Mybtis-Plus%E4%B8%AD%E8%87%AA%E5%AE%9A%E4%B9%89sql%E4%B8%AD%E5%87%BA%E7%8E%B0%E7%9A%84%E9%97%AE%E9%A2%98/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-课程的发布流程" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/02/09/%E8%AF%BE%E7%A8%8B%E7%9A%84%E5%8F%91%E5%B8%83%E6%B5%81%E7%A8%8B/">课程的发布流程</a>
-    </h1>
-  
-
-        
-        <a href="/2020/02/09/%E8%AF%BE%E7%A8%8B%E7%9A%84%E5%8F%91%E5%B8%83%E6%B5%81%E7%A8%8B/" class="archive-article-date">
-  	<time datetime="2020-02-09T01:12:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="课程发布流程"><a href="#课程发布流程" class="headerlink" title="课程发布流程"></a>课程发布流程</h3><p><img src="https://i.loli.net/2020/02/09/GpoqKiD1hNWJAHu.png" alt="批注 2020-02-09 091423.png"></p>
-<h4 id="填写课程信息："><a href="#填写课程信息：" class="headerlink" title="填写课程信息："></a>填写课程信息：</h4><ol>
-<li><p>课程名称</p>
-</li>
-<li><p>课程价格</p>
-</li>
-<li><p>课程封面</p>
-</li>
-<li><p>课程描述</p>
-<p>下一步</p>
-</li>
-</ol>
-<h4 id="填写课程大纲："><a href="#填写课程大纲：" class="headerlink" title="填写课程大纲："></a>填写课程大纲：</h4><ol>
-<li>填写课程章节(可能有多个)</li>
-<li>填写章节里的小节</li>
-</ol>
-<p>上一步       下一步</p>
-<h4 id="上传视频"><a href="#上传视频" class="headerlink" title="上传视频"></a>上传视频</h4><p>显示填写的课程信息，查看没有问题，点击发布课程。</p>
-<h3 id="填写课程信息细节"><a href="#填写课程信息细节" class="headerlink" title="填写课程信息细节"></a>填写课程信息细节</h3><h4 id="细节1"><a href="#细节1" class="headerlink" title="细节1"></a>细节1</h4><p>课程的基本信息要填到基本信息表里面，课程描述添加到课程描述表里面。</p>
-<h4 id="细节2"><a href="#细节2" class="headerlink" title="细节2"></a>细节2</h4><p>课程存储讲师信息和分类信息，把讲师id和分类id存储到表。</p>
-<ol>
-<li>讲师用下拉列表显示，选择某个讲师</li>
-<li>分类使用下拉列表显示，选择某个分类(二级联动效果)</li>
-</ol>
-<h3 id="填写课程大纲细节"><a href="#填写课程大纲细节" class="headerlink" title="填写课程大纲细节"></a>填写课程大纲细节</h3><h4 id="细节1-1"><a href="#细节1-1" class="headerlink" title="细节1"></a>细节1</h4><ol>
-<li>添加章节的时候，需要课程id</li>
-<li>添加小节的时候，需要章节id</li>
-</ol>
-<h4 id="细节2-1"><a href="#细节2-1" class="headerlink" title="细节2"></a>细节2</h4><ol>
-<li><p>添加小节的时候，上传课程视频</p>
-<p>视频都是加密，存储视频id值</p>
-</li>
-</ol>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">课程发布</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/02/09/%E8%AF%BE%E7%A8%8B%E7%9A%84%E5%8F%91%E5%B8%83%E6%B5%81%E7%A8%8B/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-阿里云OSS有关配置" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/02/05/%E9%98%BF%E9%87%8C%E4%BA%91OSS%E6%9C%89%E5%85%B3%E9%85%8D%E7%BD%AE/">阿里云OSS有关配置</a>
-    </h1>
-  
-
-        
-        <a href="/2020/02/05/%E9%98%BF%E9%87%8C%E4%BA%91OSS%E6%9C%89%E5%85%B3%E9%85%8D%E7%BD%AE/" class="archive-article-date">
-  	<time datetime="2020-02-05T02:52:56.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="properties："><a href="#properties：" class="headerlink" title="properties："></a>properties：</h3><figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#阿里云 OSS</span></span><br><span class="line"><span class="comment">#不同的服务器，地址不同</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="handler："><a href="#handler：" class="headerlink" title="handler："></a>handler：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.online.edu.school_eduservice.handler;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.InitializingBean;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Value;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 常量类，读取配置文件application.properties中的配置</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConstantPropertiesHandler</span> <span class="keyword">implements</span> <span class="title">InitializingBean</span> </span>&#123;</span><br><span class="line">    <span class="comment">//服务器启动时调用afterPropertiesSet读取配置数据</span></span><br><span class="line">    <span class="meta">@Value</span>(<span class="string">"$&#123;aliyun.oss.file.endpoint&#125;"</span>)</span><br><span class="line">    <span class="keyword">private</span> String endpoint;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Value</span>(<span class="string">"$&#123;aliyun.oss.file.keyid&#125;"</span>)</span><br><span class="line">    <span class="keyword">private</span> String keyid;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Value</span>(<span class="string">"$&#123;aliyun.oss.file.keysecret&#125;"</span>)</span><br><span class="line">    <span class="keyword">private</span> String keysecret;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Value</span>(<span class="string">"$&#123;aliyun.oss.file.bucketname&#125;"</span>)</span><br><span class="line">    <span class="keyword">private</span> String bucketname;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> String END_POINT;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> String ACCESS_KEY_ID;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> String ACCESS_KEY_SECRET;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> String BUCKET_NAME;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">afterPropertiesSet</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        END_POINT = endpoint;</span><br><span class="line">        ACCESS_KEY_ID = keyid;</span><br><span class="line">        ACCESS_KEY_SECRET = keysecret;</span><br><span class="line">        BUCKET_NAME = bucketname;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">OSS</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/02/05/%E9%98%BF%E9%87%8C%E4%BA%91OSS%E6%9C%89%E5%85%B3%E9%85%8D%E7%BD%AE/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/2/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/">Next &amp;raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/2/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/">Next &amp;raquo;</a>
     </nav>
   
 
@@ -1312,6 +1311,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">OSS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Session</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">JDBC</a>
               </li>
             
             <div class="clearfix"></div>

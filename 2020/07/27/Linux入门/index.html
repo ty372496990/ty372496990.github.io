@@ -6,20 +6,37 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://ty372496990.github.io">
-  <title>多线程学习DAY7 | 田雨的博客</title>
+  <title>Linux入门 | 田雨的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="关于volatile的一些探究12345678910111213141516171819202122232425262728293031package day7;public class volatileTest &amp;#123;    private static volatile int INIT_VALUE &#x3D; 0;    private static final int MAX_VALUE &#x3D;">
+  <meta name="description" content="Linux目录相关命令 绝对路径、相对路径   绝对路径：E:\Blog\source_posts  相对路径： 当处于E:\Blog目录下时，如果要访问source_posts，其相对路径就是\source_posts    cd: 切换目录命令   .&#x2F;        当前目录  cd ..    返回上一级   绝对路径：以&#x2F;开头  相对目录：输入相对当前目录的路径      ls  列出目">
 <meta property="og:type" content="article">
-<meta property="og:title" content="多线程学习DAY7">
-<meta property="og:url" content="http://ty372496990.github.io/2020/03/30/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0DAY7/index.html">
+<meta property="og:title" content="Linux入门">
+<meta property="og:url" content="http://ty372496990.github.io/2020/07/27/Linux%E5%85%A5%E9%97%A8/index.html">
 <meta property="og:site_name" content="田雨的博客">
-<meta property="og:description" content="关于volatile的一些探究12345678910111213141516171819202122232425262728293031package day7;public class volatileTest &amp;#123;    private static volatile int INIT_VALUE &#x3D; 0;    private static final int MAX_VALUE &#x3D;">
+<meta property="og:description" content="Linux目录相关命令 绝对路径、相对路径   绝对路径：E:\Blog\source_posts  相对路径： 当处于E:\Blog目录下时，如果要访问source_posts，其相对路径就是\source_posts    cd: 切换目录命令   .&#x2F;        当前目录  cd ..    返回上一级   绝对路径：以&#x2F;开头  相对目录：输入相对当前目录的路径      ls  列出目">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-03-30T11:03:49.000Z">
-<meta property="article:modified_time" content="2020-03-31T14:25:42.212Z">
+<meta property="og:image" content="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200727091811045.png">
+<meta property="og:image" content="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200727093312654.png">
+<meta property="og:image" content="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200727092358670.png">
+<meta property="og:image" content="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200727092533041.png">
+<meta property="og:image" content="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200727093453212.png">
+<meta property="og:image" content="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200727093851885.png">
+<meta property="og:image" content="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200727101753307.png">
+<meta property="og:image" content="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200727102815033.png">
+<meta property="og:image" content="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200727153543814.png">
+<meta property="og:image" content="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200727154454572.png">
+<meta property="og:image" content="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200727200354177.png">
+<meta property="og:image" content="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200727200519806.png">
+<meta property="og:image" content="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200727200628015.png">
+<meta property="og:image" content="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200727202744109.png">
+<meta property="og:image" content="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200727202239101.png">
+<meta property="og:image" content="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200727162909137.png">
+<meta property="article:published_time" content="2020-07-27T01:08:26.000Z">
+<meta property="article:modified_time" content="2020-07-30T01:14:28.088Z">
 <meta property="article:author" content="田雨">
-<meta property="article:tag" content="多线程">
+<meta property="article:tag" content="Linux">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200727091811045.png">
   
     <link rel="alternative" href="/atom.xml" title="田雨的博客" type="application/atom+xml">
   
@@ -155,51 +172,181 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-多线程学习DAY7" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-Linux入门" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      多线程学习DAY7
+      Linux入门
     </h1>
   
 
         
-        <a href="/2020/03/30/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0DAY7/" class="archive-article-date">
-  	<time datetime="2020-03-30T11:03:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-30</time>
+        <a href="/2020/07/27/Linux%E5%85%A5%E9%97%A8/" class="archive-article-date">
+  	<time datetime="2020-07-27T01:08:26.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-27</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="关于volatile的一些探究"><a href="#关于volatile的一些探究" class="headerlink" title="关于volatile的一些探究"></a>关于volatile的一些探究</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> day7;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">volatileTest</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">volatile</span> <span class="keyword">int</span> INIT_VALUE = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MAX_VALUE = <span class="number">5</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            <span class="keyword">int</span> localValue = INIT_VALUE;</span><br><span class="line">            <span class="keyword">while</span> (INIT_VALUE &lt; MAX_VALUE) &#123;</span><br><span class="line">                <span class="keyword">if</span> (INIT_VALUE != localValue) &#123;</span><br><span class="line">                    System.out.println(<span class="string">"The Value Update To "</span> + INIT_VALUE);</span><br><span class="line">                    localValue = INIT_VALUE;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,<span class="string">"READER"</span>).start();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            <span class="keyword">int</span> localValue = INIT_VALUE;</span><br><span class="line">            <span class="keyword">while</span> (INIT_VALUE &lt; MAX_VALUE) &#123;</span><br><span class="line">                System.out.println(<span class="string">"Update The Value To "</span> + ++localValue);</span><br><span class="line">                INIT_VALUE = localValue;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    Thread.sleep(<span class="number">500</span>);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,<span class="string">"UPDATER"</span>).start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Update The Value To <span class="number">1</span></span><br><span class="line">The Value Update To <span class="number">1</span></span><br><span class="line">Update The Value To <span class="number">2</span></span><br><span class="line">The Value Update To <span class="number">2</span></span><br><span class="line">Update The Value To <span class="number">3</span></span><br><span class="line">The Value Update To <span class="number">3</span></span><br><span class="line">Update The Value To <span class="number">4</span></span><br><span class="line">The Value Update To <span class="number">4</span></span><br><span class="line">Update The Value To <span class="number">5</span></span><br><span class="line"></span><br><span class="line">Process finished with exit code <span class="number">0</span></span><br></pre></td></tr></table></figure>
-
-<p>但是如果去掉volatile</p>
-<p>就会输出：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Update The Value To <span class="number">1</span></span><br><span class="line">The Value Update To <span class="number">1</span></span><br><span class="line">Update The Value To <span class="number">2</span></span><br><span class="line">Update The Value To <span class="number">3</span></span><br><span class="line">Update The Value To <span class="number">4</span></span><br><span class="line">Update The Value To <span class="number">5</span></span><br><span class="line"></span><br><span class="line">Process finished with exit code -<span class="number">1</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="并发编程的三个重要概念"><a href="#并发编程的三个重要概念" class="headerlink" title="并发编程的三个重要概念"></a>并发编程的三个重要概念</h4><ol>
-<li><p>原子性</p>
-<p>保证一个操作要么都成功要么都失败。</p>
+        <h1 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h1><h2 id="目录相关命令"><a href="#目录相关命令" class="headerlink" title="目录相关命令"></a>目录相关命令</h2><blockquote>
+<p>绝对路径、相对路径</p>
+</blockquote>
+<ul>
+<li><p><code>绝对路径</code>：E:\Blog\source_posts</p>
 </li>
-<li><p>可见性</p>
-<p>线程对数据的每次操作都要对其他线程可见。</p>
+<li><p><code>相对路径</code>： 当处于E:\Blog目录下时，如果要访问source_posts，其相对路径就是\source_posts</p>
 </li>
-<li><p>顺序性</p>
-<p>指令要依据编写顺序执行。</p>
-<p>指令重排只会要求最终一致性，但在多线程的环境下会出现问题。</p>
+</ul>
+<blockquote>
+<p>cd: 切换目录命令</p>
+</blockquote>
+<ul>
+<li><p>./        当前目录</p>
 </li>
-</ol>
-<h4 id="volatile"><a href="#volatile" class="headerlink" title="volatile"></a>volatile</h4><ol>
-<li>保证了不同线程间的可见性</li>
-<li>禁止指令重排</li>
-<li>不能保证原子性</li>
-</ol>
+<li><p>cd ..    返回上一级</p>
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200727091811045.png" alt="image-20200727091811045"></p>
+</li>
+<li><p>绝对路径：以/开头</p>
+</li>
+<li><p>相对目录：输入相对当前目录的路径</p>
+</li>
+<li><p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200727093312654.png" alt="image-20200727093312654"></p>
+</li>
+</ul>
+<blockquote>
+<p>ls  列出目录</p>
+</blockquote>
+<p>在Linux中ls命令可能是最常用的</p>
+<ul>
+<li>-a参数： all 查看所有的文件，包括隐藏文件</li>
+<li>-l参数： 列出所有的文件，包含文件的属性和权限，无法显示隐藏文件</li>
+</ul>
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200727092358670.png" alt="image-20200727092358670"></p>
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200727092533041.png" alt="image-20200727092533041"></p>
+<blockquote>
+<p>pwd 显示当前用户所在目录</p>
+</blockquote>
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200727093453212.png" alt="image-20200727093453212"></p>
+<blockquote>
+<p>mkdir 创建一个目录</p>
+</blockquote>
+<ul>
+<li>-p 递归创建</li>
+</ul>
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200727093851885.png" alt="image-20200727093851885"></p>
+<blockquote>
+<p>rmdir 删除目录</p>
+</blockquote>
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200727101753307.png" alt="image-20200727101753307"></p>
+<blockquote>
+<p>cp  复制文件或目录</p>
+</blockquote>
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200727102815033.png" alt="image-20200727102815033"></p>
+<blockquote>
+<p>mv 移动文件或者目录</p>
+</blockquote>
+<ul>
+<li>-f 强制移动</li>
+<li>-u 只替换已经更新过的文件</li>
+</ul>
+<h2 id="文件基本属性"><a href="#文件基本属性" class="headerlink" title="文件基本属性"></a>文件基本属性</h2><blockquote>
+<p>Linux系统文件属性</p>
+</blockquote>
+<p>Linux系统是一种典型的多用户系统，不同的用户处于不同的地位，拥有不同的权限。为了保护系统</p>
+<p>的安全性，Linux系统对不同的用户访问同一文件（包括目录文件）的权限做了不同的规定。</p>
+<p>在Linux中我们可以使用ll或者ls –l命令来显示一个文件的属性以及文件所属的用户和组。</p>
+<p>实例中，bin文件的第一个属性用”d”表示。”d”在Linux中代表该文件是一个目录文件。</p>
+<p>在Linux中第一个字符代表这个文件是目录、文件或链接文件等等。</p>
+<ul>
+<li>当为[ <strong>d</strong> ]则是目录</li>
+<li>当为[ <strong>-</strong> ]则是文件；</li>
+<li>若是[ <strong>l</strong> ]则表示为链接文档(link file)；</li>
+<li>若是[ <strong>b</strong> ]则表示为装置文件里面的可供储存的接口设备(可随机存取装置)；</li>
+<li>若是[ <strong>c</strong> ]则表示为装置文件里面的串行端口设备，例如键盘、鼠标(一次性读取装置)。</li>
+</ul>
+<p>接下来的字符中，以三个为一组，且均为『rwx』 的三个参数的组合。其中，[ r ]代表可读(read)、[ w ]代表可写(write)、[ x ]代表可执行(execute)。 要注意的是，这三个权限的位置不会改变，如果没有权限，就会出现减号[ - ]而已。</p>
+<p>每个文件的属性由左边第一部分的10个字符来确定（如下图）。</p>
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200727153543814.png" alt="image-20200727153543814"></p>
+<p>从左至右用0-9这些数字来表示。</p>
+<p>第0位确定文件类型，第1-3位确定属主（该文件的所有者）拥有该文件的权限。</p>
+<p>第4-6位确定属组（所有者的同组用户）拥有该文件的权限，第7-9位确定其他用户拥有该文件的权限。</p>
+<p>其中，第1、4、7位表示读权限，如果用”r”字符表示，则有读权限，如果用”-“字符表示，则没有读权限；</p>
+<p>第2、5、8位表示写权限，如果用”w”字符表示，则有写权限，如果用”-“字符表示没有写权限；第3、6、9位表示可执行权限，如果用”x”字符表示，则有执行权限，如果用”-“字符表示，则没有执行权限。</p>
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200727154454572.png" alt="image-20200727154454572"></p>
+<blockquote>
+<p>chgrp 更改文件属组</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chgrp [-R] 属组名 文件名</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>-R： 递归更改</li>
+</ul>
+<blockquote>
+<p>chown 更改文件属主，也可以同时更改文件属组</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chown [-R] 属主名 文件名</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>chmod 更改文件9个属性</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod [-R] xyz 文件或目录</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th align="center">r</th>
+<th align="center">w</th>
+<th align="center">x</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">4</td>
+<td align="center">2</td>
+<td align="center">1</td>
+</tr>
+</tbody></table>
+<ul>
+<li>xyz : 就是刚刚提到的数字类型的权限属性，为 rwx 属性数值的相加。</li>
+<li>-R : 进行递归(recursive)的持续变更，亦即连同次目录下的所有文件都会变更</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@www ~]<span class="comment"># ls -al .bashrc</span></span><br><span class="line">-rw-r--r--  1 root root 395 Jul  4 11:45 .bashrc</span><br><span class="line">[root@www ~]<span class="comment"># chmod 777 .bashrc</span></span><br><span class="line">[root@www ~]<span class="comment"># ls -al .bashrc</span></span><br><span class="line">-rwxrwxrwx  1 root root 395 Jul  4 11:45 .bashrc</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="文件内容查看"><a href="#文件内容查看" class="headerlink" title="文件内容查看"></a>文件内容查看</h2><p>Linux系统中使用以下命令来查看文件内容：</p>
+<ul>
+<li>==cat是由第一行开始查看==</li>
+</ul>
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200727200354177.png" alt="image-20200727200354177"></p>
+<ul>
+<li><p>tac是从最后一行开始显示（就是cat倒着写）</p>
+</li>
+<li><p>==nl 显示的时候，顺便输出行号==</p>
+</li>
+</ul>
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200727200519806.png" alt="image-20200727200519806"></p>
+<ul>
+<li>more一页一页的显示文件内容</li>
+</ul>
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200727200628015.png" alt="image-20200727200628015"></p>
+<ul>
+<li>==less与more类似，但是比more更好的是，它可以向前翻页。（上下键代表翻页）==</li>
+</ul>
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200727202744109.png" alt="image-20200727202744109"></p>
+<p>n表示下一个，N表示上一个</p>
+<ul>
+<li><p>head只看<strong>头几行</strong></p>
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200727202239101.png" alt="image-20200727202239101"></p>
+</li>
+<li><p>tail只看<strong>尾几行</strong></p>
+</li>
+</ul>
+<p><strong>也可以使用man命令来查看使用文档</strong></p>
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200727162909137.png" alt="image-20200727162909137"></p>
 
       
 
@@ -234,7 +381,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">多线程</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
         		</li>
       		
 		</ul>
@@ -290,7 +437,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://ty372496990.github.io/2020/03/30/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0DAY7/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://ty372496990.github.io/2020/07/27/Linux%E5%85%A5%E9%97%A8/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -304,18 +451,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2020/04/01/RabbiMQ%E5%9B%9E%E8%B0%83%E9%85%8D%E7%BD%AE/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          RabbiMQ回调配置
-        
-      </div>
-    </a>
   
-  
-    <a href="/2020/03/30/Java8%E6%96%B0%E7%89%B9%E6%80%A7%E5%AD%A6%E4%B9%A0DAY1/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Java8新特性学习DAY1</div>
+    <a href="/2020/07/26/Java8%E5%85%A8%E6%96%B0%E6%97%A5%E6%9C%9F%E7%B1%BB/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Java8全新日期类</div>
       <i class="icon-circle-right"></i>
     </a>
   

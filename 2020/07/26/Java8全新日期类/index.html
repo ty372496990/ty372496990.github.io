@@ -6,20 +6,27 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://ty372496990.github.io">
-  <title>多线程学习DAY7 | 田雨的博客</title>
+  <title>Java8全新日期类 | 田雨的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="关于volatile的一些探究12345678910111213141516171819202122232425262728293031package day7;public class volatileTest &amp;#123;    private static volatile int INIT_VALUE &#x3D; 0;    private static final int MAX_VALUE &#x3D;">
+  <meta name="description" content="日期类从Joda-Time说起在Java8之前，可以使用Joda-Time作为日期类进行使用 如果要使用Joda-Time，可以先进入官网通过Maven导入https:&#x2F;&#x2F;www.joda.org&#x2F;joda-time&#x2F;  123456789101112131415161718192021222324252627&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF-8&quot;?&gt;">
 <meta property="og:type" content="article">
-<meta property="og:title" content="多线程学习DAY7">
-<meta property="og:url" content="http://ty372496990.github.io/2020/03/30/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0DAY7/index.html">
+<meta property="og:title" content="Java8全新日期类">
+<meta property="og:url" content="http://ty372496990.github.io/2020/07/26/Java8%E5%85%A8%E6%96%B0%E6%97%A5%E6%9C%9F%E7%B1%BB/index.html">
 <meta property="og:site_name" content="田雨的博客">
-<meta property="og:description" content="关于volatile的一些探究12345678910111213141516171819202122232425262728293031package day7;public class volatileTest &amp;#123;    private static volatile int INIT_VALUE &#x3D; 0;    private static final int MAX_VALUE &#x3D;">
+<meta property="og:description" content="日期类从Joda-Time说起在Java8之前，可以使用Joda-Time作为日期类进行使用 如果要使用Joda-Time，可以先进入官网通过Maven导入https:&#x2F;&#x2F;www.joda.org&#x2F;joda-time&#x2F;  123456789101112131415161718192021222324252627&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF-8&quot;?&gt;">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-03-30T11:03:49.000Z">
-<meta property="article:modified_time" content="2020-03-31T14:25:42.212Z">
+<meta property="og:image" content="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200726101231904.png">
+<meta property="og:image" content="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200726102002602.png">
+<meta property="og:image" content="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200726102909242.png">
+<meta property="og:image" content="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200726154056552.png">
+<meta property="og:image" content="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200726154421922.png">
+<meta property="og:image" content="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200726155329841.png">
+<meta property="article:published_time" content="2020-07-26T01:55:48.000Z">
+<meta property="article:modified_time" content="2020-07-27T01:09:50.694Z">
 <meta property="article:author" content="田雨">
-<meta property="article:tag" content="多线程">
+<meta property="article:tag" content="Java8">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200726101231904.png">
   
     <link rel="alternative" href="/atom.xml" title="田雨的博客" type="application/atom+xml">
   
@@ -155,51 +162,60 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-多线程学习DAY7" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-Java8全新日期类" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      多线程学习DAY7
+      Java8全新日期类
     </h1>
   
 
         
-        <a href="/2020/03/30/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0DAY7/" class="archive-article-date">
-  	<time datetime="2020-03-30T11:03:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-30</time>
+        <a href="/2020/07/26/Java8%E5%85%A8%E6%96%B0%E6%97%A5%E6%9C%9F%E7%B1%BB/" class="archive-article-date">
+  	<time datetime="2020-07-26T01:55:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-26</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="关于volatile的一些探究"><a href="#关于volatile的一些探究" class="headerlink" title="关于volatile的一些探究"></a>关于volatile的一些探究</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> day7;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">volatileTest</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">volatile</span> <span class="keyword">int</span> INIT_VALUE = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MAX_VALUE = <span class="number">5</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            <span class="keyword">int</span> localValue = INIT_VALUE;</span><br><span class="line">            <span class="keyword">while</span> (INIT_VALUE &lt; MAX_VALUE) &#123;</span><br><span class="line">                <span class="keyword">if</span> (INIT_VALUE != localValue) &#123;</span><br><span class="line">                    System.out.println(<span class="string">"The Value Update To "</span> + INIT_VALUE);</span><br><span class="line">                    localValue = INIT_VALUE;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,<span class="string">"READER"</span>).start();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            <span class="keyword">int</span> localValue = INIT_VALUE;</span><br><span class="line">            <span class="keyword">while</span> (INIT_VALUE &lt; MAX_VALUE) &#123;</span><br><span class="line">                System.out.println(<span class="string">"Update The Value To "</span> + ++localValue);</span><br><span class="line">                INIT_VALUE = localValue;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    Thread.sleep(<span class="number">500</span>);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,<span class="string">"UPDATER"</span>).start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <h1 id="日期类"><a href="#日期类" class="headerlink" title="日期类"></a>日期类</h1><h2 id="从Joda-Time说起"><a href="#从Joda-Time说起" class="headerlink" title="从Joda-Time说起"></a>从Joda-Time说起</h2><p>在Java8之前，可以使用Joda-Time作为日期类进行使用</p>
+<p>如果要使用Joda-Time，可以先进入官网通过Maven导入<a href="https://www.joda.org/joda-time/" target="_blank" rel="noopener">https://www.joda.org/joda-time/</a></p>
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200726101231904.png" alt="image-20200726101231904"></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">xmlns</span>=<span class="string">"http://maven.apache.org/POM/4.0.0"</span></span></span><br><span class="line"><span class="tag">         <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag">         <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">parent</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>day1<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.example<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">parent</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>concurrent_test<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- https://mvnrepository.com/artifact/org.projectlombok/lombok --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.projectlombok<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lombok<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.18.12<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">scope</span>&gt;</span>provided<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>joda-time<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>joda-time<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.10.6<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Update The Value To <span class="number">1</span></span><br><span class="line">The Value Update To <span class="number">1</span></span><br><span class="line">Update The Value To <span class="number">2</span></span><br><span class="line">The Value Update To <span class="number">2</span></span><br><span class="line">Update The Value To <span class="number">3</span></span><br><span class="line">The Value Update To <span class="number">3</span></span><br><span class="line">Update The Value To <span class="number">4</span></span><br><span class="line">The Value Update To <span class="number">4</span></span><br><span class="line">Update The Value To <span class="number">5</span></span><br><span class="line"></span><br><span class="line">Process finished with exit code <span class="number">0</span></span><br></pre></td></tr></table></figure>
+<h3 id="Joda-Time基本使用方式"><a href="#Joda-Time基本使用方式" class="headerlink" title="Joda-Time基本使用方式"></a>Joda-Time基本使用方式</h3><blockquote>
+<p>使用JodaTime输出今天和明天的具体时间：</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> jdk8.LocalDate;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.joda.time.DateTime;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span>: Tianyu</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span>: 2020/7/26 9:57</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">timeTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        DateTime today = <span class="keyword">new</span> DateTime();</span><br><span class="line">        <span class="comment">//如果要获取明天日期</span></span><br><span class="line">        DateTime tomorrow = today.plusDays(<span class="number">1</span>);</span><br><span class="line">        System.out.println(<span class="string">"今天日期是："</span> + today.toString(<span class="string">"yyyy-MM-dd HH:mm:ss"</span>));</span><br><span class="line">        System.out.println(<span class="string">"明天日期是："</span> + tomorrow.toString(<span class="string">"yyyy-MM-dd HH:mm:ss"</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>但是如果去掉volatile</p>
-<p>就会输出：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Update The Value To <span class="number">1</span></span><br><span class="line">The Value Update To <span class="number">1</span></span><br><span class="line">Update The Value To <span class="number">2</span></span><br><span class="line">Update The Value To <span class="number">3</span></span><br><span class="line">Update The Value To <span class="number">4</span></span><br><span class="line">Update The Value To <span class="number">5</span></span><br><span class="line"></span><br><span class="line">Process finished with exit code -<span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200726102002602.png" alt="image-20200726102002602"></p>
+<p>还可以对日期进行更为灵活的操作：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> jdk8.LocalDate;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.joda.time.DateTime;</span><br><span class="line"><span class="keyword">import</span> org.joda.time.LocalDate;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span>: Tianyu</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span>: 2020/7/26 9:57</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">timeTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        DateTime today = <span class="keyword">new</span> DateTime();</span><br><span class="line">        <span class="comment">//如果要获取明天日期</span></span><br><span class="line">        DateTime tomorrow = today.plusDays(<span class="number">1</span>);</span><br><span class="line">        System.out.println(<span class="string">"今天日期是："</span> + today.toString(<span class="string">"yyyy-MM-dd HH:mm:ss"</span>));</span><br><span class="line">        System.out.println(<span class="string">"明天日期是："</span> + tomorrow.toString(<span class="string">"yyyy-MM-dd HH:mm:ss"</span>));</span><br><span class="line">        DateTime dateTime = today.withDayOfMonth(<span class="number">1</span>);</span><br><span class="line">        System.out.println(<span class="string">"本月第一天的日期是："</span> + dateTime.toString(<span class="string">"yyyy-MM-dd HH:mm:ss"</span>));</span><br><span class="line"></span><br><span class="line">        LocalDate localDate= <span class="keyword">new</span> LocalDate();</span><br><span class="line">        LocalDate withMaximumValue = localDate.plusMonths(<span class="number">3</span>).dayOfMonth().withMaximumValue();</span><br><span class="line">        System.out.println(<span class="string">"三个月后的最后一天是： "</span> + withMaximumValue.toString(<span class="string">"yyyy-MM-dd"</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h4 id="并发编程的三个重要概念"><a href="#并发编程的三个重要概念" class="headerlink" title="并发编程的三个重要概念"></a>并发编程的三个重要概念</h4><ol>
-<li><p>原子性</p>
-<p>保证一个操作要么都成功要么都失败。</p>
-</li>
-<li><p>可见性</p>
-<p>线程对数据的每次操作都要对其他线程可见。</p>
-</li>
-<li><p>顺序性</p>
-<p>指令要依据编写顺序执行。</p>
-<p>指令重排只会要求最终一致性，但在多线程的环境下会出现问题。</p>
-</li>
-</ol>
-<h4 id="volatile"><a href="#volatile" class="headerlink" title="volatile"></a>volatile</h4><ol>
-<li>保证了不同线程间的可见性</li>
-<li>禁止指令重排</li>
-<li>不能保证原子性</li>
-</ol>
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200726102909242.png" alt="image-20200726102909242"></p>
+<p>在了解完Joda-Time相关内容之后，就可以对Java8的全新日期类进行了解了。</p>
+<h2 id="Java8全新日期类"><a href="#Java8全新日期类" class="headerlink" title="Java8全新日期类"></a>Java8全新日期类</h2><h3 id="LocalDate"><a href="#LocalDate" class="headerlink" title="LocalDate"></a>LocalDate</h3><blockquote>
+<p>编写一个测试类：</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> jdk8.LocalDate;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.time.LocalDate;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span>: Tianyu</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span>: 2020/7/26 15:36</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">newTimeTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        LocalDate now = LocalDate.now();</span><br><span class="line">        System.out.println(now);</span><br><span class="line">        System.out.println(now.getYear() + <span class="string">", "</span> + now.getMonthValue() + <span class="string">", "</span> + now.getDayOfMonth());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200726154056552.png" alt="image-20200726154056552"></p>
+<blockquote>
+<p>同时LocalDate也可以通过年月日来进行构造。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//通过年月日构造时间</span></span><br><span class="line">LocalDate date = LocalDate.of(<span class="number">2017</span>, <span class="number">1</span>, <span class="number">4</span>);</span><br><span class="line">System.out.println(date);</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200726154421922.png" alt="image-20200726154421922"></p>
+<h3 id="LocalTime"><a href="#LocalTime" class="headerlink" title="LocalTime"></a>LocalTime</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//LocalTime</span></span><br><span class="line">LocalTime time = LocalTime.now();</span><br><span class="line">System.out.println(time);</span><br><span class="line">LocalTime later = time.plusHours(<span class="number">2</span>).plusMinutes(<span class="number">3</span>);</span><br><span class="line">System.out.println(later);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>LocalTime只表示时分秒，并且同样可以很方便的进行时间的更改；</p>
+</blockquote>
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200726155329841.png" alt="image-20200726155329841"></p>
 
       
 
@@ -234,7 +250,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">多线程</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Java8</a>
         		</li>
       		
 		</ul>
@@ -290,7 +306,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://ty372496990.github.io/2020/03/30/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0DAY7/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://ty372496990.github.io/2020/07/26/Java8%E5%85%A8%E6%96%B0%E6%97%A5%E6%9C%9F%E7%B1%BB/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -304,18 +320,18 @@
   
 <nav id="article-nav">
   
-    <a href="/2020/04/01/RabbiMQ%E5%9B%9E%E8%B0%83%E9%85%8D%E7%BD%AE/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2020/07/27/Linux%E5%85%A5%E9%97%A8/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          RabbiMQ回调配置
+          Linux入门
         
       </div>
     </a>
   
   
-    <a href="/2020/03/30/Java8%E6%96%B0%E7%89%B9%E6%80%A7%E5%AD%A6%E4%B9%A0DAY1/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Java8新特性学习DAY1</div>
+    <a href="/2020/07/25/%E5%9B%9E%E9%A1%BEJDBC/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">回顾JDBC</div>
       <i class="icon-circle-right"></i>
     </a>
   

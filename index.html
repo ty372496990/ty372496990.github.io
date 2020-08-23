@@ -152,6 +152,341 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Linux入门" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/07/27/Linux%E5%85%A5%E9%97%A8/">Linux入门</a>
+    </h1>
+  
+
+        
+        <a href="/2020/07/27/Linux%E5%85%A5%E9%97%A8/" class="archive-article-date">
+  	<time datetime="2020-07-27T01:08:26.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-27</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h1><h2 id="目录相关命令"><a href="#目录相关命令" class="headerlink" title="目录相关命令"></a>目录相关命令</h2><blockquote>
+<p>绝对路径、相对路径</p>
+</blockquote>
+<ul>
+<li><p><code>绝对路径</code>：E:\Blog\source_posts</p>
+</li>
+<li><p><code>相对路径</code>： 当处于E:\Blog目录下时，如果要访问source_posts，其相对路径就是\source_posts</p>
+</li>
+</ul>
+<blockquote>
+<p>cd: 切换目录命令</p>
+</blockquote>
+<ul>
+<li><p>./        当前目录</p>
+</li>
+<li><p>cd ..    返回上一级</p>
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200727091811045.png" alt="image-20200727091811045"></p>
+</li>
+<li><p>绝对路径：以/开头</p>
+</li>
+<li><p>相对目录：输入相对当前目录的路径</p>
+</li>
+<li><p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200727093312654.png" alt="image-20200727093312654"></p>
+</li>
+</ul>
+<blockquote>
+<p>ls  列出目录</p>
+</blockquote>
+<p>在Linux中ls命令可能是最常用的</p>
+<ul>
+<li>-a参数： all 查看所有的文件，包括隐藏文件</li>
+<li>-l参数： 列出所有的文件，包含文件的属性和权限，无法显示隐藏文件</li>
+</ul>
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200727092358670.png" alt="image-20200727092358670"></p>
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200727092533041.png" alt="image-20200727092533041"></p>
+<blockquote>
+<p>pwd 显示当前用户所在目录</p>
+</blockquote>
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200727093453212.png" alt="image-20200727093453212"></p>
+<blockquote>
+<p>mkdir 创建一个目录</p>
+</blockquote>
+<ul>
+<li>-p 递归创建</li>
+</ul>
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200727093851885.png" alt="image-20200727093851885"></p>
+<blockquote>
+<p>rmdir 删除目录</p>
+</blockquote>
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200727101753307.png" alt="image-20200727101753307"></p>
+<blockquote>
+<p>cp  复制文件或目录</p>
+</blockquote>
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200727102815033.png" alt="image-20200727102815033"></p>
+<blockquote>
+<p>mv 移动文件或者目录</p>
+</blockquote>
+<ul>
+<li>-f 强制移动</li>
+<li>-u 只替换已经更新过的文件</li>
+</ul>
+<h2 id="文件基本属性"><a href="#文件基本属性" class="headerlink" title="文件基本属性"></a>文件基本属性</h2><blockquote>
+<p>Linux系统文件属性</p>
+</blockquote>
+<p>Linux系统是一种典型的多用户系统，不同的用户处于不同的地位，拥有不同的权限。为了保护系统</p>
+<p>的安全性，Linux系统对不同的用户访问同一文件（包括目录文件）的权限做了不同的规定。</p>
+<p>在Linux中我们可以使用ll或者ls –l命令来显示一个文件的属性以及文件所属的用户和组。</p>
+<p>实例中，bin文件的第一个属性用”d”表示。”d”在Linux中代表该文件是一个目录文件。</p>
+<p>在Linux中第一个字符代表这个文件是目录、文件或链接文件等等。</p>
+<ul>
+<li>当为[ <strong>d</strong> ]则是目录</li>
+<li>当为[ <strong>-</strong> ]则是文件；</li>
+<li>若是[ <strong>l</strong> ]则表示为链接文档(link file)；</li>
+<li>若是[ <strong>b</strong> ]则表示为装置文件里面的可供储存的接口设备(可随机存取装置)；</li>
+<li>若是[ <strong>c</strong> ]则表示为装置文件里面的串行端口设备，例如键盘、鼠标(一次性读取装置)。</li>
+</ul>
+<p>接下来的字符中，以三个为一组，且均为『rwx』 的三个参数的组合。其中，[ r ]代表可读(read)、[ w ]代表可写(write)、[ x ]代表可执行(execute)。 要注意的是，这三个权限的位置不会改变，如果没有权限，就会出现减号[ - ]而已。</p>
+<p>每个文件的属性由左边第一部分的10个字符来确定（如下图）。</p>
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200727153543814.png" alt="image-20200727153543814"></p>
+<p>从左至右用0-9这些数字来表示。</p>
+<p>第0位确定文件类型，第1-3位确定属主（该文件的所有者）拥有该文件的权限。</p>
+<p>第4-6位确定属组（所有者的同组用户）拥有该文件的权限，第7-9位确定其他用户拥有该文件的权限。</p>
+<p>其中，第1、4、7位表示读权限，如果用”r”字符表示，则有读权限，如果用”-“字符表示，则没有读权限；</p>
+<p>第2、5、8位表示写权限，如果用”w”字符表示，则有写权限，如果用”-“字符表示没有写权限；第3、6、9位表示可执行权限，如果用”x”字符表示，则有执行权限，如果用”-“字符表示，则没有执行权限。</p>
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200727154454572.png" alt="image-20200727154454572"></p>
+<blockquote>
+<p>chgrp 更改文件属组</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chgrp [-R] 属组名 文件名</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>-R： 递归更改</li>
+</ul>
+<blockquote>
+<p>chown 更改文件属主，也可以同时更改文件属组</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chown [-R] 属主名 文件名</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>chmod 更改文件9个属性</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod [-R] xyz 文件或目录</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th align="center">r</th>
+<th align="center">w</th>
+<th align="center">x</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">4</td>
+<td align="center">2</td>
+<td align="center">1</td>
+</tr>
+</tbody></table>
+<ul>
+<li>xyz : 就是刚刚提到的数字类型的权限属性，为 rwx 属性数值的相加。</li>
+<li>-R : 进行递归(recursive)的持续变更，亦即连同次目录下的所有文件都会变更</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@www ~]<span class="comment"># ls -al .bashrc</span></span><br><span class="line">-rw-r--r--  1 root root 395 Jul  4 11:45 .bashrc</span><br><span class="line">[root@www ~]<span class="comment"># chmod 777 .bashrc</span></span><br><span class="line">[root@www ~]<span class="comment"># ls -al .bashrc</span></span><br><span class="line">-rwxrwxrwx  1 root root 395 Jul  4 11:45 .bashrc</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="文件内容查看"><a href="#文件内容查看" class="headerlink" title="文件内容查看"></a>文件内容查看</h2><p>Linux系统中使用以下命令来查看文件内容：</p>
+<ul>
+<li>==cat是由第一行开始查看==</li>
+</ul>
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200727200354177.png" alt="image-20200727200354177"></p>
+<ul>
+<li><p>tac是从最后一行开始显示（就是cat倒着写）</p>
+</li>
+<li><p>==nl 显示的时候，顺便输出行号==</p>
+</li>
+</ul>
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200727200519806.png" alt="image-20200727200519806"></p>
+<ul>
+<li>more一页一页的显示文件内容</li>
+</ul>
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200727200628015.png" alt="image-20200727200628015"></p>
+<ul>
+<li>==less与more类似，但是比more更好的是，它可以向前翻页。（上下键代表翻页）==</li>
+</ul>
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200727202744109.png" alt="image-20200727202744109"></p>
+<p>n表示下一个，N表示上一个</p>
+<ul>
+<li><p>head只看<strong>头几行</strong></p>
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200727202239101.png" alt="image-20200727202239101"></p>
+</li>
+<li><p>tail只看<strong>尾几行</strong></p>
+</li>
+</ul>
+<p><strong>也可以使用man命令来查看使用文档</strong></p>
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200727162909137.png" alt="image-20200727162909137"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/07/27/Linux%E5%85%A5%E9%97%A8/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-Java8全新日期类" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/07/26/Java8%E5%85%A8%E6%96%B0%E6%97%A5%E6%9C%9F%E7%B1%BB/">Java8全新日期类</a>
+    </h1>
+  
+
+        
+        <a href="/2020/07/26/Java8%E5%85%A8%E6%96%B0%E6%97%A5%E6%9C%9F%E7%B1%BB/" class="archive-article-date">
+  	<time datetime="2020-07-26T01:55:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-26</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="日期类"><a href="#日期类" class="headerlink" title="日期类"></a>日期类</h1><h2 id="从Joda-Time说起"><a href="#从Joda-Time说起" class="headerlink" title="从Joda-Time说起"></a>从Joda-Time说起</h2><p>在Java8之前，可以使用Joda-Time作为日期类进行使用</p>
+<p>如果要使用Joda-Time，可以先进入官网通过Maven导入<a href="https://www.joda.org/joda-time/" target="_blank" rel="noopener">https://www.joda.org/joda-time/</a></p>
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200726101231904.png" alt="image-20200726101231904"></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">xmlns</span>=<span class="string">"http://maven.apache.org/POM/4.0.0"</span></span></span><br><span class="line"><span class="tag">         <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag">         <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">parent</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>day1<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.example<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">parent</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>concurrent_test<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- https://mvnrepository.com/artifact/org.projectlombok/lombok --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.projectlombok<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lombok<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.18.12<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">scope</span>&gt;</span>provided<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>joda-time<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>joda-time<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.10.6<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Joda-Time基本使用方式"><a href="#Joda-Time基本使用方式" class="headerlink" title="Joda-Time基本使用方式"></a>Joda-Time基本使用方式</h3><blockquote>
+<p>使用JodaTime输出今天和明天的具体时间：</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> jdk8.LocalDate;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.joda.time.DateTime;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span>: Tianyu</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span>: 2020/7/26 9:57</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">timeTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        DateTime today = <span class="keyword">new</span> DateTime();</span><br><span class="line">        <span class="comment">//如果要获取明天日期</span></span><br><span class="line">        DateTime tomorrow = today.plusDays(<span class="number">1</span>);</span><br><span class="line">        System.out.println(<span class="string">"今天日期是："</span> + today.toString(<span class="string">"yyyy-MM-dd HH:mm:ss"</span>));</span><br><span class="line">        System.out.println(<span class="string">"明天日期是："</span> + tomorrow.toString(<span class="string">"yyyy-MM-dd HH:mm:ss"</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200726102002602.png" alt="image-20200726102002602"></p>
+<p>还可以对日期进行更为灵活的操作：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> jdk8.LocalDate;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.joda.time.DateTime;</span><br><span class="line"><span class="keyword">import</span> org.joda.time.LocalDate;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span>: Tianyu</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span>: 2020/7/26 9:57</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">timeTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        DateTime today = <span class="keyword">new</span> DateTime();</span><br><span class="line">        <span class="comment">//如果要获取明天日期</span></span><br><span class="line">        DateTime tomorrow = today.plusDays(<span class="number">1</span>);</span><br><span class="line">        System.out.println(<span class="string">"今天日期是："</span> + today.toString(<span class="string">"yyyy-MM-dd HH:mm:ss"</span>));</span><br><span class="line">        System.out.println(<span class="string">"明天日期是："</span> + tomorrow.toString(<span class="string">"yyyy-MM-dd HH:mm:ss"</span>));</span><br><span class="line">        DateTime dateTime = today.withDayOfMonth(<span class="number">1</span>);</span><br><span class="line">        System.out.println(<span class="string">"本月第一天的日期是："</span> + dateTime.toString(<span class="string">"yyyy-MM-dd HH:mm:ss"</span>));</span><br><span class="line"></span><br><span class="line">        LocalDate localDate= <span class="keyword">new</span> LocalDate();</span><br><span class="line">        LocalDate withMaximumValue = localDate.plusMonths(<span class="number">3</span>).dayOfMonth().withMaximumValue();</span><br><span class="line">        System.out.println(<span class="string">"三个月后的最后一天是： "</span> + withMaximumValue.toString(<span class="string">"yyyy-MM-dd"</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200726102909242.png" alt="image-20200726102909242"></p>
+<p>在了解完Joda-Time相关内容之后，就可以对Java8的全新日期类进行了解了。</p>
+<h2 id="Java8全新日期类"><a href="#Java8全新日期类" class="headerlink" title="Java8全新日期类"></a>Java8全新日期类</h2><h3 id="LocalDate"><a href="#LocalDate" class="headerlink" title="LocalDate"></a>LocalDate</h3><blockquote>
+<p>编写一个测试类：</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> jdk8.LocalDate;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.time.LocalDate;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span>: Tianyu</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span>: 2020/7/26 15:36</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">newTimeTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        LocalDate now = LocalDate.now();</span><br><span class="line">        System.out.println(now);</span><br><span class="line">        System.out.println(now.getYear() + <span class="string">", "</span> + now.getMonthValue() + <span class="string">", "</span> + now.getDayOfMonth());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200726154056552.png" alt="image-20200726154056552"></p>
+<blockquote>
+<p>同时LocalDate也可以通过年月日来进行构造。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//通过年月日构造时间</span></span><br><span class="line">LocalDate date = LocalDate.of(<span class="number">2017</span>, <span class="number">1</span>, <span class="number">4</span>);</span><br><span class="line">System.out.println(date);</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200726154421922.png" alt="image-20200726154421922"></p>
+<h3 id="LocalTime"><a href="#LocalTime" class="headerlink" title="LocalTime"></a>LocalTime</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//LocalTime</span></span><br><span class="line">LocalTime time = LocalTime.now();</span><br><span class="line">System.out.println(time);</span><br><span class="line">LocalTime later = time.plusHours(<span class="number">2</span>).plusMinutes(<span class="number">3</span>);</span><br><span class="line">System.out.println(later);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>LocalTime只表示时分秒，并且同样可以很方便的进行时间的更改；</p>
+</blockquote>
+<p><img src="https://ty-edu1.oss-cn-beijing.aliyuncs.com/PicGo/image-20200726155329841.png" alt="image-20200726155329841"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Java8</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/07/26/Java8%E5%85%A8%E6%96%B0%E6%97%A5%E6%9C%9F%E7%B1%BB/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-回顾JDBC" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1058,186 +1393,6 @@
 
 
   
-    <article id="post-生产者-消费者模式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/04/23/%E7%94%9F%E4%BA%A7%E8%80%85-%E6%B6%88%E8%B4%B9%E8%80%85%E6%A8%A1%E5%BC%8F/">生产者-消费者模式</a>
-    </h1>
-  
-
-        
-        <a href="/2020/04/23/%E7%94%9F%E4%BA%A7%E8%80%85-%E6%B6%88%E8%B4%B9%E8%80%85%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2020-04-23T12:53:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-23</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="生产者-消费者"><a href="#生产者-消费者" class="headerlink" title="生产者-消费者"></a>生产者-消费者</h3><h4 id="Condition实现："><a href="#Condition实现：" class="headerlink" title="Condition实现："></a>Condition实现：</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> day13;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.LinkedList;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.TimeUnit;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.locks.Condition;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.locks.Lock;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.locks.ReentrantLock;</span><br><span class="line"><span class="keyword">import</span> java.util.stream.IntStream;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConditionTest</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Lock LOCK = <span class="keyword">new</span> ReentrantLock();</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Condition PRODUCE_COND = LOCK.newCondition();</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Condition CONSUME_COND = LOCK.newCondition();</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MAX_CAPACITY = <span class="number">100</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> LinkedList&lt;Long&gt; TIMESTAMP_POOL = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        IntStream.range(<span class="number">0</span>,<span class="number">6</span>).boxed().forEach(ConditionTest::BeginProduce);</span><br><span class="line">        IntStream.range(<span class="number">0</span>,<span class="number">6</span>).boxed().forEach(ConditionTest::BeginConsume);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">BeginProduce</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">                    produce();</span><br><span class="line">                    sleep((<span class="keyword">long</span>) <span class="number">3</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,<span class="string">"P"</span> + i).start();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">BeginConsume</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">                    consumer();</span><br><span class="line">                    sleep((<span class="keyword">long</span>) <span class="number">3</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,<span class="string">"C"</span> + i).start();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">produce</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            LOCK.lock();</span><br><span class="line">            <span class="keyword">while</span> (TIMESTAMP_POOL.size() &gt;= MAX_CAPACITY) &#123;</span><br><span class="line">                PRODUCE_COND.await();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">long</span> timeMillis = System.currentTimeMillis();</span><br><span class="line">            System.out.println(Thread.currentThread().getName() + <span class="string">"--P--"</span> + timeMillis);</span><br><span class="line">            TimeUnit.MILLISECONDS.sleep(<span class="number">0x64</span>);</span><br><span class="line">            TIMESTAMP_POOL.addLast(timeMillis);</span><br><span class="line">            CONSUME_COND.signal();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            LOCK.unlock();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">consumer</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            LOCK.lock();</span><br><span class="line">            <span class="keyword">while</span> (TIMESTAMP_POOL.isEmpty()) &#123;</span><br><span class="line">                CONSUME_COND.await();</span><br><span class="line">            &#125;</span><br><span class="line">            Long aLong = TIMESTAMP_POOL.removeLast();</span><br><span class="line">            System.out.println(Thread.currentThread().getName() + <span class="string">"--C--"</span> + aLong);</span><br><span class="line">            PRODUCE_COND.signal();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            LOCK.unlock();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sleep</span><span class="params">(Long sec)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        TimeUnit.SECONDS.sleep(sec);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">多线程</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/04/23/%E7%94%9F%E4%BA%A7%E8%80%85-%E6%B6%88%E8%B4%B9%E8%80%85%E6%A8%A1%E5%BC%8F/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-数组" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/04/13/%E6%95%B0%E7%BB%84/">数组</a>
-    </h1>
-  
-
-        
-        <a href="/2020/04/13/%E6%95%B0%E7%BB%84/" class="archive-article-date">
-  	<time datetime="2020-04-13T08:35:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-13</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="再学数组"><a href="#再学数组" class="headerlink" title="再学数组"></a>再学数组</h3><p>​    提到数组，肯定都不陌生，甚至还会觉得很简单。</p>
-<p>​    几乎所有编程语言中都拥有数组这种类型。</p>
-<p>​    但是，数组的下标为何是从0开始的？</p>
-<h4 id="如何实现随机访问"><a href="#如何实现随机访问" class="headerlink" title="如何实现随机访问"></a>如何实现随机访问</h4><p>​    <strong>数组（Array）是一种线性表数据结构。它用一组连续的内存空间，来存储一组具有相同类型的数据。</strong></p>
-<p>​    而且，数组还拥有连续的内存空间和相同类型的数据。正是因为这两个限制，它才有了一个堪称“杀手锏”的特性：“随机访问”。但有利就有弊，这两个限制也让数组的很多操作变得非常低效，比如要想在数组中删除、插入一个数据，为了保证连续性，就需要做大量的数据搬移工作。</p>
-<p>​    计算机会为数组创建连续的内存空间，当需要随机访问时，会调用以下公式。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a[i]_address = base_address + i * data_type_size</span><br></pre></td></tr></table></figure>
-
-<p>​    但是不要误以为数组的查找效率就是O(1)，即使是二分查找，时间复杂度也是O(logn)。所以，正确的表述应该是，数组支持随机访问，根据下标随机访问的时间复杂度为 O(1)。</p>
-<h4 id="低效的“插入”和“删除”"><a href="#低效的“插入”和“删除”" class="headerlink" title="低效的“插入”和“删除”"></a>低效的“插入”和“删除”</h4><p>​    数组在进行插入和删除的时候必然会面临大量数据移动的问题。那么如何去解决这种事情呢？</p>
-<p>​    <strong>直接将第 k 位的数据搬移到数组元素的最后，把新的元素直接放入第 k 个位置。</strong></p>
-<p><img src="https://i.loli.net/2020/04/13/4Bq9mAKV1yYfEGu.png" alt="批注 2020-04-13 164804.png"></p>
-<p>​    利用这种处理技巧，在特定场景下，在第 k 个位置插入一个元素的时间复杂度就会降为 O(1)。这个处理思想在快排中也会用到。</p>
-<p>​    </p>
-<p>​    我们再来看<strong>删除操作</strong>。</p>
-<p>​    在某些特殊场景下，我们并不一定非得追求数组中数据的连续性。如果我们将多次删除操作集中在一起执行，删除的效率是不是会提高很多呢？</p>
-<p>​    我们可以先记录下已经删除的数据。每次的删除操作并不是真正地搬移数据，只是记录数据已经被删除。当数组没有更多空间存储数据时，我们再触发执行一次真正的删除操作，这样就大大减少了删除操作导致的数据搬移。</p>
-<p>​    如果你了解 JVM，你会发现，这不就是 JVM 标记清除垃圾回收算法的核心思想吗？没错，数据结构和算法的魅力就在于此，<strong>很多时候我们并不是要去死记硬背某个数据结构或者算法，而是要学习它背后的思想和处理技巧，这些东西才是最有价值的。</strong>如果你细心留意，不管是在软件开发还是架构设计中，总能找到某些算法和数据结构的影子。</p>
-<h4 id="容器能否完全替代数组？"><a href="#容器能否完全替代数组？" class="headerlink" title="容器能否完全替代数组？"></a>容器能否完全替代数组？</h4><p>​    ArrayList 最大的优势就是可以将很多数组操作的细节封装起来。比如前面提到的数组插入、删除数据时需要搬移其他数据等。另外，它还有一个优势，就是支持<strong>动态扩容</strong>。</p>
-<p>​    数组本身在定义的时候需要预先指定大小，因为需要分配连续的内存空间。如果我们申请了大小为 10 的数组，当第 11 个数据需要存储到数组中时，我们就需要重新分配一块更大的空间，将原来的数据复制过去，然后再将新的数据插入。</p>
-<p>​    如果使用 ArrayList，我们就完全不需要关心底层的扩容逻辑，ArrayList 已经帮我们实现好了。每次存储空间不够的时候，它都会将空间自动扩容为 1.5 倍大小。</p>
-<p>​    不过，这里需要注意一点，因为扩容操作涉及内存申请和数据搬移，是比较耗时的。所以，如果事先能确定需要存储的数据大小，<strong>最好在创建 ArrayList 的时候事先指定数据大小。</strong></p>
-<p>​    1. Java ArrayList 无法存储基本类型，比如 int、long，需要封装为 Integer、Long 类，而 Autoboxing、Unboxing 则有一定的性能消耗，所以如果特别关注性能，或者希望使用基本类型，就可以选用数组。</p>
-<ol start="2">
-<li>如果数据大小事先已知，并且对数据的操作非常简单，用不到 ArrayList 提供的大部分方法，也可以直接使用数组。</li>
-<li>还有一个是我个人的喜好，当要表示多维数组时，用数组往往会更加直观。比如 Object[][] array；而用容器的话则需要这样定义：ArrayList&lt;ArrayList<object> &gt; array。</object></li>
-</ol>
-<h4 id="回到开头"><a href="#回到开头" class="headerlink" title="回到开头"></a>回到开头</h4><p>​    为什么大多数编程语言中，数组要从 0 开始编号，而不是从 1 开始呢？</p>
-<p>​    从数组存储的内存模型上来看，“下标”最确切的定义应该是“偏移（offset）”。前面也讲到，如果用 a 来表示数组的首地址，a[0]就是偏移为 0 的位置，也就是首地址，a[k]就表示偏移 k 个 type_size 的位置，所以计算 a[k]的内存地址只需要用这个公式：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a[k]_address = base_address + k * type_size</span><br></pre></td></tr></table></figure>
-
-<p>​    从 1 开始编号，每次随机访问数组元素都多了一次减法运算，对于 CPU 来说，就是多了一次减法指令。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算法</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/04/13/%E6%95%B0%E7%BB%84/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
@@ -1432,6 +1587,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">JDBC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
               </li>
             
             <div class="clearfix"></div>
